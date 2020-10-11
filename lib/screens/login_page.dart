@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
       //Decoration property to set our static background image
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/loginbackground'),
+          image: AssetImage('images/loginbackground.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
                   style: GoogleFonts.josefinSans(
                     textStyle: TextStyle(
                         fontSize: 80,
-                        fontWeight: FontWeight.w900),
+                        fontWeight: FontWeight.w800),
                     ),
                 ),
                 //WU LOGO
@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.blueAccent,
+                              color: shockerYellow,
                               width: 1
                           )
                       ),
@@ -102,7 +102,7 @@ class _LoginState extends State<Login> {
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.blueAccent,
+                              color: shockerYellow,
                               width: 1
                           )
                       ),
