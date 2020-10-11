@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
+import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/food_page.dart';
 
@@ -12,17 +12,17 @@ class WSUGo extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //Setting my home route
 
+      //Setting my home route
       //initialRoute: FoodPage.name,
-      //initialRoute: Login.id,
-      initialRoute: HomePage.name,
+      initialRoute: Login.id,
+      //initialRoute: HomePage.name,
 
       //Setting all routes
       routes: {
-        //Login.id: (context) => Login(),
+        Login.id: (context) => Login(),
         HomePage.name: (context) => HomePage(),
-        //FoodPage.name: (context) => FoodPage(),
+        FoodPage.name: (context) => FoodPage(),
       },
     );
   }

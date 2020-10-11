@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
+import 'package:flutter/material.dart';
 
 class FoodPage extends StatefulWidget {
   static const String name = 'food_page';
@@ -29,11 +29,11 @@ class _FoodPageState extends State<FoodPage> {
               labelColor: shockerBlack,
               tabs: [
                 Tab(
-                  icon: Icon(Icons.deck_rounded),
+                  icon: Icon(Icons.place),
                   text: 'Food Truck Plaza',
                 ),
                 Tab(
-                  icon: Icon(Icons.fastfood_rounded),
+                  icon: Icon(Icons.fastfood),
                   text: 'Other Dining Options',
                 ),
               ],

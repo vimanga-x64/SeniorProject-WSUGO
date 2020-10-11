@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+
   # This adds the google fonts library to our application
   google_fonts: ^1.1.0
 
