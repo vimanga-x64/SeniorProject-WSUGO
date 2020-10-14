@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wsu_go/constants.dart';
+import 'package:wsu_go/screens/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/screens/login_page.dart';
-
+// Import the firebase_auth plugin
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
-
+  //Providing an id for routes to target
   static const String id = 'register_page';
 
   @override
@@ -13,6 +15,13 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  //Creating an instance for FireBase auth, _auth
+  final _auth = FirebaseAuth.instance;
+  //String for username, email and password that the user will enter
+  String username;
+  String email;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,7 +57,12 @@ class _RegisterState extends State<Register> {
                 ),
                 Container(
                   padding: EdgeInsets.only(left:30, right:30),
+                  //Username field
                   child: TextField(
+                    onChanged: (value) {
+                      //Saving the value that the user enters in as username
+                      username = value;
+                    },
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
@@ -77,7 +91,13 @@ class _RegisterState extends State<Register> {
                 ),
                 Container(
                   padding: EdgeInsets.only(left:30, right:30),
+                  //Email field
                   child: TextField(
+                    onChanged: (value) {
+                      //Saving the value that the user enters in as email
+                      email = value;
+                    },
+                    keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
@@ -106,7 +126,13 @@ class _RegisterState extends State<Register> {
                 ),
                 Container(
                   padding: EdgeInsets.only(left:30, right:30),
+                  //Password field
                   child: TextField(
+                    onChanged: (value) {
+                      //Saving the value that the user enters in as password
+                      password = value;
+                    },
+                    obscureText: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
@@ -140,15 +166,19 @@ class _RegisterState extends State<Register> {
                       minWidth: 70,
                       height: 45,
                         child: RaisedButton(
-                          onPressed: (){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context){
-                                    return Login();
-                                  }
-                                )
-                            );
+                          //Turning onPressed into an async method to make sure user is finished creating their fields
+                          onPressed: () async{
+                            //Try/Catch block to make sure all fields are correctly answered
+                            try {
+                              final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+                              if(newUser != null){
+                                Navigator.pushNamed(context, HomePage.id);
+                              }
+                            }
+                            catch (e){
+                              print(e);
+                            }
+
                           },
                           color: shockerYellow,
                           child: Text(

@@ -3,7 +3,7 @@ import 'package:wsu_go/constants.dart';
 import 'package:flutter/material.dart';
 
 class FoodPage extends StatefulWidget {
-  static const String name = 'food_page';
+  static const String id = 'food_page';
   @override
   _FoodPageState createState() => _FoodPageState();
 }
