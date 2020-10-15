@@ -1,8 +1,11 @@
+//// Import the firebase_auth plugin
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wsu_go/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/screens/register_page.dart';
+import 'package:wsu_go/screens/home_page.dart';
 
 class Login extends StatefulWidget {
   //Providing an id for routes to target
@@ -13,6 +16,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  //Creating an instance for FireBase auth, _auth
+  final _auth = FirebaseAuth.instance;
+  //String for email and password that the user will enter
+  String email;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,6 +68,11 @@ class _LoginState extends State<Login> {
                 Container(
                   padding: EdgeInsets.only(left: 30, right: 30),
                   child: TextField(
+                    onChanged: (value) {
+                      //Saving the value that the user enters in as email
+                      email = value;
+                    },
+                    keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     //Decoration property to customize box appearance regarding color and when users click on it
@@ -75,7 +89,7 @@ class _LoginState extends State<Login> {
                               width: 1
                           )
                       ),
-                      hintText: 'Username',
+                      hintText: 'Email',
                       hintStyle: TextStyle(
                         fontSize: 15,
                         color: Colors.white,
@@ -90,6 +104,11 @@ class _LoginState extends State<Login> {
                 Container(
                   padding: EdgeInsets.only(left: 30, right: 30),
                   child: TextField(
+                    onChanged: (value) {
+                      //Saving the value that the user enters in as password
+                      password = value;
+                    },
+                    obscureText: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                     //Decoration property to customize box appearance regarding color and when users click on it
@@ -128,14 +147,7 @@ class _LoginState extends State<Login> {
                       child: RaisedButton (
                         //Redirects to Register page
                         onPressed: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context){
-                                  return Register();
-                                },
-                              ),
-                          );
+                          Navigator.pushNamed(context, Register.id);
                         },
                         color: shockerYellow,
                         child: Text(
@@ -154,7 +166,22 @@ class _LoginState extends State<Login> {
                       height: 45,
                       child: RaisedButton (
                         //Redirects to Home page
-                        onPressed: () => {},
+                        //Turning onPressed into an async method to make sure user is finished creating their fields
+
+                        //TODO: Implement error handling when user types in wrong email or password
+
+                        onPressed: () async {
+                          //Try/Catch block to make sure all fields are correctly answered
+                          try {
+                            final user = _auth.signInWithEmailAndPassword(email: email, password: password);
+                            if (user != null) {
+                              Navigator.pushNamed(context, HomePage.id);
+                            }
+                          }
+                          catch(e) {
+                            print(e);
+                          }
+                        },
                         color: shockerYellow,
                         child: Text(
                             'Login',
