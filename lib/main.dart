@@ -12,7 +12,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-
   runApp(WSUGo());
 }
 
@@ -23,9 +22,7 @@ class WSUGo extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       //Setting my home route
-      //initialRoute: FoodPage.name,
       initialRoute: Login.id,
-      //initialRoute: HomePage.name,
 
       //Setting all routes so we can use the method "Navigator.pushNamed(context, routeName);"
       routes: {

@@ -13,32 +13,50 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: shockerWhite,
-        drawer: Drawer(child: LeftDrawer()),
-        body: SafeArea(
-          //AnimatedList goes here instead
-          child: Greeting('Username'),
-          top: true,
-          bottom: true,
-          left: true,
-          right: true,
+        elevation: 0.0,
+        brightness: Brightness.light,
+        iconTheme: IconThemeData(color: shockerBlack),
+      ),
+      drawer: Drawer(child: Container()), //To be written by dylan
+      body: SingleChildScrollView(
+        child: Container(
+          color: shockerWhite,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 100,
+              ),
+              Greeting('User'),
+              SizedBox(
+                height: 100,
+              ),
+              Center(
+                child: Text("Today at a glance:",
+                    style: GoogleFonts.josefinSans(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: shockerBlack,
+                    )),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CourseTile(),
+              SizedBox(
+                height: 10,
+              ),
+              CourseTile(),
+            ],
+          ),
         ),
       ),
     );
-  }
-}
-
-class LeftDrawer extends StatefulWidget {
-  @override
-  _LeftDrawerState createState() => _LeftDrawerState();
-}
-
-class _LeftDrawerState extends State<LeftDrawer> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
 
@@ -51,7 +69,6 @@ class Greeting extends StatefulWidget {
 }
 
 class _GreetingState extends State<Greeting> {
-
   //Setting up Greeting Widget to retrieve data from FireBase
   //Start
   final _auth = FirebaseAuth.instance;
@@ -64,33 +81,93 @@ class _GreetingState extends State<Greeting> {
   }
 
   void getCurrentUser() async {
-    try{
+    try {
       final user = _auth.currentUser;
-      if(user != null) {
+      if (user != null) {
         loggedInUser = user;
         //Prints current users email in the log
         print(loggedInUser.email);
         //Signing the user out right away after printing their name in the log
         //_auth.signOut();
       }
-    } catch (e){
+    } catch (e) {
       print(e);
     }
   }
   //End of FireBase*/
 
   Widget build(BuildContext context) {
+    return Text(
+      'Hello,\n${widget.name}',
+      style: GoogleFonts.josefinSans(
+        fontSize: 50,
+        fontWeight: FontWeight.w900,
+        color: shockerBlack,
+      ),
+    );
+  }
+}
+
+class CourseTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      child: Align(
-        alignment: FractionalOffset(0.08, 0.24),
-        child: Text(
-          'Hello, ${widget.name}',
-          style: GoogleFonts.josefinSans(
-            fontSize: 52,
-            fontWeight: FontWeight.w800,
-            color: shockerBlack,
+      decoration: BoxDecoration(
+          color: shockerYellowOpaque, borderRadius: BorderRadius.circular(20)),
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.book),
+          SizedBox(
+            width: 17,
           ),
-        ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Senior Design",
+                style: GoogleFonts.josefinSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: shockerBlack,
+                ),
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Text(
+                "EE 585",
+                style: GoogleFonts.josefinSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: shockerBlack,
+                ),
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Text(
+                "9:30 AM - 11:45 AM",
+                style: GoogleFonts.josefinSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: shockerBlack,
+                ),
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Text(
+                "John Bardo Center 338",
+                style: GoogleFonts.josefinSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: shockerBlack,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
