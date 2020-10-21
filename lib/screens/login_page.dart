@@ -90,10 +90,14 @@ class _LoginState extends State<Login> {
                           return !value.contains('@') ? 'Not a valid Email' : null;
                         },
                         keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.right,
                         style: TextStyle(color: Colors.white),
                         //Decoration property to customize box appearance regarding color and when users click on it
                         decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.white,
+                          ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.white,
@@ -133,10 +137,14 @@ class _LoginState extends State<Login> {
                           return value.isEmpty ? 'Please enter in a Password' : null;
                         },
                         obscureText: true,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.right,
                         style: TextStyle(color: Colors.white),
                         //Decoration property to customize box appearance regarding color and when users click on it
                         decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.lock_outline,
+                            color: Colors.white,
+                          ),
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Colors.white,

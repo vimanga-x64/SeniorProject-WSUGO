@@ -81,9 +81,13 @@ class _RegisterState extends State<Register> {
                         validator: (String value){
                           return value.isEmpty ? 'Please enter in a Username' : null;
                         },
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.right,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.people,
+                            color: Colors.white,
+                          ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.white,
@@ -124,30 +128,34 @@ class _RegisterState extends State<Register> {
                           return !value.contains('@') ? 'Not a valid Email' : null;
                         },
                         keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.right,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.5,
-                                )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: shockerYellow,
-                                  width: 1,
-                                )
-                            ),
-                            hintText: 'Email',
-                            hintStyle: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white
-                            ),
-                            errorStyle: TextStyle(
-                              color: shockerYellow,
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.white,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2.5,
+                              )
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: shockerYellow,
+                                width: 1,
+                              )
+                          ),
+                          hintText: 'Email',
+                          hintStyle: TextStyle(
                               fontSize: 15,
-                            ),
+                              color: Colors.white
+                          ),
+                          errorStyle: TextStyle(
+                            color: shockerYellow,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                     ),
@@ -167,30 +175,34 @@ class _RegisterState extends State<Register> {
                           return value.isEmpty ? 'Please enter in a Password' : null;
                         },
                         obscureText: true,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.right,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.5,
-                                )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: shockerYellow,
-                                  width: 1,
-                                )
-                            ),
-                            hintText: 'Password',
-                            hintStyle: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white
-                            ),
-                            errorStyle: TextStyle(
-                              color: shockerYellow,
+                          prefixIcon: Icon(
+                            Icons.lock_outline,
+                            color: Colors.white,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2.5,
+                              )
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: shockerYellow,
+                                width: 1,
+                              )
+                          ),
+                          hintText: 'Password',
+                          hintStyle: TextStyle(
                               fontSize: 15,
-                            ),
+                              color: Colors.white
+                          ),
+                          errorStyle: TextStyle(
+                            color: shockerYellow,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                     ),
