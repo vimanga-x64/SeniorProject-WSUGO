@@ -88,7 +88,7 @@ class _GreetingState extends State<Greeting> {
         //Prints current users email in the log
         print(loggedInUser.email);
         //Signing the user out right away after printing their name in the log
-        _auth.signOut();
+        //_auth.signOut();
       }
     } catch (e) {
       print(e);
