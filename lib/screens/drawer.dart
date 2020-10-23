@@ -37,8 +37,10 @@ class CustomDrawer extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
                       }),
                 CustomListTile(Icons.event_note,'Schedule', ()=>{}),
-                CustomListTile(Icons.wb_sunny_outlined,'Weather', ()=>{}),
-                CustomListTile(Icons.logout,'Logout', ()=>{}),
+                //Icons.wb_sunny_outlined
+                CustomListTile(Icons.wb_sunny,'Weather', ()=>{}),
+                //Icons.logout
+                CustomListTile(Icons.exit_to_app,'Logout', ()=>{}),
             ],)
           );
   }
