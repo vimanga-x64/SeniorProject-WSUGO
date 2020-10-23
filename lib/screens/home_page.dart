@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
+import './drawer.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -20,7 +21,8 @@ class _HomePageState extends State<HomePage> {
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: shockerBlack),
       ),
-      drawer: Drawer(child: Container()), //To be written by dylan
+      drawer: CustomDrawer(),
+      //drawer: Drawer(child: Container()), //To be written by dylan
       body: SingleChildScrollView(
         child: Container(
           color: shockerWhite,
