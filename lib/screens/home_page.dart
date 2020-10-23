@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
         iconTheme: IconThemeData(color: shockerBlack),
       ),
       drawer: CustomDrawer(),
-      //drawer: Drawer(child: Container()), //To be written by dylan
       body: SingleChildScrollView(
         child: Container(
           color: shockerWhite,
