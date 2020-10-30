@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "193265883440",
+    "firebase_url": "https://wsugo-a8bbe.firebaseio.com",
+    "project_id": "wsugo-a8bbe",
+    "storage_bucket": "wsugo-a8bbe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193265883440:android:6f08f0a3384add1e4410f5",
+        "android_client_info": {
+          "package_name": "com.huynguyen.wsu_go"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193265883440-brt5punkbdcvencjohrgi3qru7ukevdj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyiarUgDTJPZQzpN1ra9-bxC6cNM7oSIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193265883440-brt5punkbdcvencjohrgi3qru7ukevdj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

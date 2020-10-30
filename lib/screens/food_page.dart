@@ -1,9 +1,10 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
 import 'package:flutter/material.dart';
+import './drawer.dart';
 
 class FoodPage extends StatefulWidget {
-  static const String name = 'food_page';
+  static const String id = 'food_page';
   @override
   _FoodPageState createState() => _FoodPageState();
 }
@@ -39,6 +40,7 @@ class _FoodPageState extends State<FoodPage> {
               ],
             ),
           ),
+          drawer: CustomDrawer(),
           body: TabBarView(
             children: [
               TwitterAPI(),

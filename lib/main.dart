@@ -1,9 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:wsu_go/screens/register_page.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/food_page.dart';
+// Import the firebase_auth plugin
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
+void main() async {
+  //Initializing FireBase before using it
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(WSUGo());
 }
 
@@ -14,15 +22,14 @@ class WSUGo extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       //Setting my home route
-      //initialRoute: FoodPage.name,
       initialRoute: Login.id,
-      //initialRoute: HomePage.name,
 
-      //Setting all routes
+      //Setting all routes so we can use the method "Navigator.pushNamed(context, routeName);"
       routes: {
         Login.id: (context) => Login(),
-        HomePage.name: (context) => HomePage(),
-        FoodPage.name: (context) => FoodPage(),
+        HomePage.id: (context) => HomePage(),
+        FoodPage.id: (context) => FoodPage(),
+        Register.id: (context) => Register(),
       },
     );
   }
