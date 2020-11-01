@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../constants.dart';
 
 
 void main () => runApp(
@@ -125,7 +126,7 @@ class _WeatherAppState extends State<WeatherApp> {
                     child:Text(
                       "Currently in Wichita, KS",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: shockerBlack,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500
                       ),
@@ -135,7 +136,7 @@ class _WeatherAppState extends State<WeatherApp> {
                   Text(
                     temp != null ? temp.toString() + " °F" : "Loading",
                     style: TextStyle(
-                        color: Colors.black,
+                        color: shockerBlack,
                         fontSize: 75.0,
                         fontWeight: FontWeight.w800
                     ),
@@ -145,7 +146,7 @@ class _WeatherAppState extends State<WeatherApp> {
                     child:Text(
                       description != null ? description.toString() : "Loading",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: shockerBlack,
                           fontSize: 25.0,
                           fontWeight: FontWeight.w600
                       ),
