@@ -37,14 +37,14 @@ void main () => runApp(
 
   }
 }*/
-class Home extends StatefulWidget {
+class WeatherApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _HomeState();
+    return _WeatherAppState();
   }
 }
 
-class _HomeState extends State<Home> {
+class _WeatherAppState extends State<WeatherApp> {
 
   var temp;
   var description;
