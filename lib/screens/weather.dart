@@ -9,35 +9,9 @@ import '../constants.dart';
 void main () => runApp(
     MaterialApp(
       title: "WEATHER",
-      //home: Page1(),
     )
 );
-/*class Page1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Align (
-          alignment: Alignment.topRight,
-          child: FlatButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(
-                  MaterialPageRoute(
-                      builder: (context) => Home()
 
-                  )
-              );
-            },
-            child: Icon (
-                Icons.wb_sunny,
-                color: Colors.yellow,
-                size: 65.0
-            ),
-          )),
-    );
-
-  }
-}*/
 class WeatherApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -81,19 +55,6 @@ class _WeatherAppState extends State<WeatherApp> {
       this.sunset = results['sys']['sunset'];
       format_sunset = DateTime.fromMillisecondsSinceEpoch(sunset*1000);
     });
-    //dynamic jsonObject = jsonDecode(jsonString);
-
-    //dynamic sys = jsonObject['sys'];
-    //print(sys);
-
-    //sys['sunrise'] = getClockInUtcPlus3Hours(sys['sunrise'] as int);
-    //sys['sunset'] = getClockInUtcPlus3Hours(sys['sunset'] as int);
-
-    //print(sys);
-
-
-
-    //String getClockInUtcPlus3Hours(int timeSinceEpochInSec)
   }
 
   @override
@@ -114,7 +75,6 @@ class _WeatherAppState extends State<WeatherApp> {
                     image: AssetImage("images/white.jpg"),
                     fit : BoxFit.cover,
                     alignment: Alignment.center,
-                    // colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
                   )
               ),
               child: Column(
@@ -155,7 +115,6 @@ class _WeatherAppState extends State<WeatherApp> {
                   ),
                 ],
               ),
-
           ),
           Container (
             alignment: Alignment.bottomLeft,
@@ -214,6 +173,5 @@ class _WeatherAppState extends State<WeatherApp> {
         ],
       ),
     );
-
   }
 }

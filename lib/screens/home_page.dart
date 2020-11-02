@@ -74,8 +74,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-
-
     );
   }
 }
@@ -127,33 +125,6 @@ class _GreetingState extends State<Greeting> {
     );
   }
 }
-
-/*class Weather extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Align (
-          alignment: Alignment.topRight,
-          child: FlatButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(
-                  MaterialPageRoute(
-                      builder: (context) => WeatherApp()
-
-                  )
-              );
-            },
-            child: Icon (
-                Icons.wb_sunny,
-                color: shockerYellow,
-                size: 65.0
-            ),
-          )),
-    );
-
-  }
-}*/
 
 class CourseTile extends StatelessWidget {
   @override
