@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
+import '../constants.dart';
 import './drawer.dart';
+import './weather.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -20,6 +22,21 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: shockerBlack),
+        actions: <Widget> [
+          IconButton(
+            icon : const Icon(Icons.wb_sunny),
+            color: shockerYellow,
+            tooltip: 'Weather',
+            onPressed: () {
+              Navigator.of(context)
+                  .push(
+                MaterialPageRoute(
+                  builder: (context) => WeatherApp()
+                )
+              );
+            },
+          )
+        ],
       ),
       drawer: CustomDrawer(),
       body: SingleChildScrollView(
