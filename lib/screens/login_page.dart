@@ -209,27 +209,40 @@ class _LoginState extends State<Login> {
                             onPressed: () async {
                               //If statement to check the form's validator
                               if (formKey.currentState.validate()) {
-
+                                //Setting the spinner animation to true
                                 setState(() {
                                   showSpinner = true;
                                 });
-
-                                //Try/Catch block to make sure all fields are correctly answered
-                                try {
-                                  final user = _auth.signInWithEmailAndPassword(
-                                      email: email, password: password);
-                                  if (user != null) {
-                                    Navigator.pushNamed(context, HomePage.id);
-                                  }
-
+                                //Using .signInWithEmailAndPassword.then.catchError to handle password/email authentication
+                                _auth.signInWithEmailAndPassword(email: email, password: password).then((results){
+                                  //Push user to homepage when authenticated
+                                  Navigator.pushNamed(context, HomePage.id);
+                                }).catchError((error){
+                                  //Print error message in log
+                                  print(error.message);
+                                  //Show dialog to user about the specific error
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            title: Text("Error"),
+                                            content: Text(error.message),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text('Ok'),
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                  },
+                                              )
+                                            ]
+                                        );
+                                      }
+                                    );
+                                  });
+                                //Setting spinner animation to false
                                   setState(() {
                                     showSpinner = false;
                                   });
-
-                                }
-                                catch (e) {
-                                  print(e);
-                                }
                               }
                             },
                             color: shockerYellow,
