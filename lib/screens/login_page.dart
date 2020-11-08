@@ -203,9 +203,6 @@ class _LoginState extends State<Login> {
                           child: RaisedButton (
                             //Redirects to Home page
                             //Turning onPressed into an async method to make sure user is finished creating their fields
-
-                            //TODO: Implement error handling when user types in wrong email or password
-
                             onPressed: () async {
                               //If statement to check the form's validator
                               if (formKey.currentState.validate()) {
