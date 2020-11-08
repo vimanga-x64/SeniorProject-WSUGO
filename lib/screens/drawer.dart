@@ -3,8 +3,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import './home_page.dart';
 import './food_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import './login_page.dart';
 
 class CustomDrawer extends StatelessWidget {
+
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -40,7 +45,8 @@ class CustomDrawer extends StatelessWidget {
                 //Icons.wb_sunny_outlined
                 CustomListTile(Icons.wb_sunny,'Weather', ()=>{}),
                 //Icons.logout
-                CustomListTile(Icons.exit_to_app,'Logout', ()=>{}),
+                CustomListTile(Icons.exit_to_app,'Logout', 
+                  ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
             ],)
           );
   }
