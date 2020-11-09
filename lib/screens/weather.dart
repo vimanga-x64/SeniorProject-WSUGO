@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../constants.dart';
+import './drawer.dart';
+import 'drawer.dart';
 
 
 void main () => runApp(
@@ -65,6 +67,7 @@ class _WeatherAppState extends State<WeatherApp> {
   @override
   Widget build (BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       body: Column(
         children: <Widget> [
           Container(
