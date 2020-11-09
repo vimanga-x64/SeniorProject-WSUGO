@@ -217,35 +217,43 @@ class _RegisterState extends State<Register> {
                           height: 45,
                             child: RaisedButton(
                               //Turning onPressed into an async method to make sure user is finished creating their fields
-                              onPressed: () async{
+                              onPressed: () async {
                                 //If statement to check the form's validator
-                                if(formKey.currentState.validate()) {
-
-                                  //Setting the state of the spinner to True
+                                if (formKey.currentState.validate()) {
+                                  //Setting spinner animation to true
                                   setState(() {
                                     showSpinner = true;
                                   });
-
-                                  //Try/Catch block to make sure all fields are correctly answered
-                                  try {
-                                    final newUser = await _auth
-                                        .createUserWithEmailAndPassword(
-                                        email: email, password: password);
-                                    if (newUser != null) {
-                                      Navigator.pushNamed(context, HomePage.id);
-                                    }
-
-                                    //Setting the state of the spinner to false after pushing user
-                                    setState(() {
-                                      showSpinner = false;
-                                    });
-
-                                  }
-                                  catch (e) {
-                                    print(e);
-                                  }
+                                  //Using .createUserWithEmailAndPassword.then.catchError to handle registering users
+                                  _auth.createUserWithEmailAndPassword(
+                                      email: email, password: password).then((
+                                      results) {
+                                    Navigator.pushNamed(context, HomePage.id);
+                                  }).catchError((error) {
+                                    print(error.message);
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Error"),
+                                            content: Text(error.message),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text("Ok"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  });
+                                  //Setting spinner animation to false
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
                                 }
-
                               },
                               color: shockerYellow,
                               child: Text(
