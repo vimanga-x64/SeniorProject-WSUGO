@@ -10,7 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 //String for username, email and password that the user will enter
-String username;
+String firstname;
 String email;
 String password;
 
@@ -76,7 +76,7 @@ class _RegisterState extends State<Register> {
                     SizedBox(
                       height: 100,
                     ),
-                    UserNameField(),
+                    FirstNameField(),
                     SizedBox(
                       height: 25,
                     ),
@@ -107,6 +107,10 @@ class _RegisterState extends State<Register> {
                                   _auth.createUserWithEmailAndPassword(
                                       email: email, password: password).then((
                                       results) {
+                                        //Adding student's First Name as document name in the collection of Students
+                                    students.doc(firstname).set({
+                                      'Name': firstname
+                                    });
                                     Navigator.pushNamed(context, HomePage.id);
                                   }).catchError((error) {
                                     print(error.message);
@@ -156,7 +160,7 @@ class _RegisterState extends State<Register> {
   }
 }
 
-class UserNameField extends StatelessWidget {
+class FirstNameField extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
@@ -166,11 +170,11 @@ class UserNameField extends StatelessWidget {
       child: TextFormField(
         onChanged: (value) {
           //Saving the value that the user enters in as username
-          username = value;
+          firstname = value;
         },
         //Validator for the field
         validator: (String value){
-          return value.isEmpty ? 'Please enter in a Username' : null;
+          return value.isEmpty ? 'Please enter in a First Name' : null;
         },
         textAlign: TextAlign.right,
         style: TextStyle(color: Colors.white),
@@ -191,7 +195,7 @@ class UserNameField extends StatelessWidget {
                   width: 1,
                 )
             ),
-            hintText: 'Username',
+            hintText: 'First Name',
             hintStyle: TextStyle(
                 fontSize: 15,
                 color: Colors.white
