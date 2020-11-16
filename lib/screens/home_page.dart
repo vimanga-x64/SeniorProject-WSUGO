@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
+// Import Cloud Firestore package
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants.dart';
 import './drawer.dart';
 import './weather.dart';
@@ -14,6 +16,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  //Creating an instance for Firestore, students
+  //Tapping into our collection of Students
+  CollectionReference students = FirebaseFirestore.instance.collection('Students');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
