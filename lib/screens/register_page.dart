@@ -108,7 +108,7 @@ class _RegisterState extends State<Register> {
                                       email: email, password: password).then((
                                       results) {
                                         //Adding student's First Name as document name in the collection of Students
-                                    students.doc(firstname).set({
+                                    students.add({
                                       'First Name': firstname
                                     });
                                     Navigator.pushNamed(context, HomePage.id);
