@@ -107,8 +107,8 @@ class _RegisterState extends State<Register> {
                                   _auth.createUserWithEmailAndPassword(
                                       email: email, password: password).then((
                                       results) {
-                                        //Adding student to documents with the First Name field set
-                                    students.add({
+                                        //Adding student to documents with the First Name field set and their document ID as their Authentication UID
+                                    students.doc(_auth.currentUser.uid).set({
                                       'First Name': firstname
                                     });
                                     Navigator.pushNamed(context, HomePage.id);

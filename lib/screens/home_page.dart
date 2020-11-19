@@ -111,7 +111,7 @@ class _GreetingState extends State<Greeting> {
       if (user != null) {
         loggedInUser = user;
         //Prints current users email in the log
-        print(loggedInUser.email);
+        print(loggedInUser.uid);
         //Signing the user out right away after printing their name in the log
         //_auth.signOut();
       }
