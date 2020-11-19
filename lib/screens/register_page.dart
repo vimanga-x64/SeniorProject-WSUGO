@@ -107,7 +107,7 @@ class _RegisterState extends State<Register> {
                                   _auth.createUserWithEmailAndPassword(
                                       email: email, password: password).then((
                                       results) {
-                                        //Adding student's First Name as document name in the collection of Students
+                                        //Adding student to documents with the First Name field set
                                     students.add({
                                       'First Name': firstname
                                     });
