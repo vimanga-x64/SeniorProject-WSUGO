@@ -95,7 +95,8 @@ class Greeting extends StatefulWidget {
 
 class _GreetingState extends State<Greeting> {
   //Setting up Greeting Widget to retrieve data from FireBase
-  //Start
+
+  //Start of Firebase
   final _auth = FirebaseAuth.instance;
   User loggedInUser;
 
@@ -121,7 +122,15 @@ class _GreetingState extends State<Greeting> {
   }
   //End of FireBase*/
 
+  //Creating a future instance to get User's First Name
+  Future<DocumentSnapshot> getUserFirstName() async {
+    var _auth = FirebaseAuth.instance.currentUser;
+    var student = FirebaseFirestore.instance.collection('Students').doc(_auth.uid).get();
+    return student;
+  }
+
   Widget build(BuildContext context) {
+    //Have to return a Future Builder to correlate with getUserFirstName()
     return Text(
       'Hello,\n${widget.name}',
       style: GoogleFonts.josefinSans(
