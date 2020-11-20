@@ -96,48 +96,47 @@ class Greeting extends StatefulWidget {
 class _GreetingState extends State<Greeting> {
   //Setting up Greeting Widget to retrieve data from FireBase
 
-  //Start of Firebase
-  final _auth = FirebaseAuth.instance;
-  User loggedInUser;
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() async {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        //Prints current users email in the log
-        print(loggedInUser.uid);
-        //Signing the user out right away after printing their name in the log
-        //_auth.signOut();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-  //End of FireBase*/
-
-  //Creating a future instance to get User's First Name
+  //Creating a Future function that is going to return a variable type of "DocumentSnapshot"
+  //Future function is async with an awaiting variable of student that is type "DocumentSnapshot"
   Future<DocumentSnapshot> getUserFirstName() async {
-    var _auth = FirebaseAuth.instance.currentUser;
-    var student = FirebaseFirestore.instance.collection('Students').doc(_auth.uid).get();
-    return student;
+    //Creating two final variables to access FirebaseAuthentication and Cloud Firestore
+
+    //Targets that current user that is logged in
+    final _auth = FirebaseAuth.instance.currentUser;
+
+    //Get the current logged in student's data
+    //They are targeted by their "_auth.uid"
+    final student = FirebaseFirestore.instance.collection('Students').doc(_auth.uid).get();
+    return await student;
   }
 
   Widget build(BuildContext context) {
-    //Have to return a Future Builder to correlate with getUserFirstName()
-    return Text(
-      'Hello,\n${widget.name}',
-      style: GoogleFonts.josefinSans(
-        fontSize: 50,
-        fontWeight: FontWeight.w900,
-        color: shockerBlack,
-      ),
+    //Returning FutureBuilder() widget that is going to assist on waiting for
+    return FutureBuilder(
+      //Set future variable as our Future<DocumentSnapshot>
+      future: getUserFirstName(),
+
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot){
+        //Creating a Map variable with key being a String and Value being Dynamic
+        //The data variable is set to the documents (Data like their first name and classes) inside the collection (Students)
+        Map<String, dynamic> data = snapshot.data.data();
+
+        //If-Else statement to handle if the connection is valid or not
+        if(snapshot.connectionState == ConnectionState.done){
+          //Return Text field targeting Student's "First Name" document
+          return Text(
+            "Hello,\n ${data['First Name']}",
+            style: GoogleFonts.josefinSans(
+              fontSize: 50,
+              fontWeight: FontWeight.w900,
+              color: shockerBlack,
+            ),
+          );
+        } else if (snapshot.connectionState == ConnectionState.none){
+          return Text('Null');
+        }
+        return Text('Null');
+      },
     );
   }
 }
