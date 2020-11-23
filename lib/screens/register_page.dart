@@ -5,7 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/screens/login_page.dart';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
+// Import Cloud Firestore package
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+//String for username, email and password that the user will enter
+String firstname;
+String email;
+String password;
 
 class Register extends StatefulWidget {
   //Providing an id for routes to target
@@ -18,10 +25,10 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   //Creating an instance for FireBase auth, _auth
   final _auth = FirebaseAuth.instance;
-  //String for username, email and password that the user will enter
-  String username;
-  String email;
-  String password;
+
+  //Creating an instance for Firesore, students
+  //Tapping into our collection of Students
+  CollectionReference students = FirebaseFirestore.instance.collection('Students');
 
   //Bool for progress HUD
   bool showSpinner = false;
@@ -69,143 +76,15 @@ class _RegisterState extends State<Register> {
                     SizedBox(
                       height: 100,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left:30, right:30),
-                      //Username field
-                      child: TextFormField(
-                        onChanged: (value) {
-                          //Saving the value that the user enters in as username
-                          username = value;
-                        },
-                        //Validator for the field
-                        validator: (String value){
-                          return value.isEmpty ? 'Please enter in a Username' : null;
-                        },
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.people,
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2.5,
-                            )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: shockerYellow,
-                              width: 1,
-                            )
-                          ),
-                          hintText: 'Username',
-                          hintStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white
-                          ),
-                          errorStyle: TextStyle(
-                            color: shockerYellow,
-                            fontSize: 15,
-                          )
-                        ),
-                      ),
-                    ),
+                    FirstNameField(),
                     SizedBox(
                       height: 25,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left:30, right:30),
-                      //Email field
-                      child: TextFormField(
-                        onChanged: (value) {
-                          //Saving the value that the user enters in as email
-                          email = value;
-                        },
-                        //Validator for the field
-                        validator: (String value){
-                          return !value.contains('@') ? 'Not a valid Email' : null;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 2.5,
-                              )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: shockerYellow,
-                                width: 1,
-                              )
-                          ),
-                          hintText: 'Email',
-                          hintStyle: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white
-                          ),
-                          errorStyle: TextStyle(
-                            color: shockerYellow,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ),
+                    EmailField(),
                     SizedBox(
                       height: 25,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left:30, right:30),
-                      //Password field
-                      child: TextFormField(
-                        onChanged: (value) {
-                          //Saving the value that the user enters in as password
-                          password = value;
-                        },
-                        //validator for the field
-                        validator: (String value){
-                          return value.isEmpty ? 'Please enter in a Password' : null;
-                        },
-                        obscureText: true,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.lock_outline,
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 2.5,
-                              )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: shockerYellow,
-                                width: 1,
-                              )
-                          ),
-                          hintText: 'Password',
-                          hintStyle: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white
-                          ),
-                          errorStyle: TextStyle(
-                            color: shockerYellow,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ),
+                    PasswordField(),
                     SizedBox(
                       height: 25,
                     ),
@@ -217,35 +96,47 @@ class _RegisterState extends State<Register> {
                           height: 45,
                             child: RaisedButton(
                               //Turning onPressed into an async method to make sure user is finished creating their fields
-                              onPressed: () async{
+                              onPressed: () async {
                                 //If statement to check the form's validator
-                                if(formKey.currentState.validate()) {
-
-                                  //Setting the state of the spinner to True
+                                if (formKey.currentState.validate()) {
+                                  //Setting spinner animation to true
                                   setState(() {
                                     showSpinner = true;
                                   });
-
-                                  //Try/Catch block to make sure all fields are correctly answered
-                                  try {
-                                    final newUser = await _auth
-                                        .createUserWithEmailAndPassword(
-                                        email: email, password: password);
-                                    if (newUser != null) {
-                                      Navigator.pushNamed(context, HomePage.id);
-                                    }
-
-                                    //Setting the state of the spinner to false after pushing user
-                                    setState(() {
-                                      showSpinner = false;
+                                  //Using .createUserWithEmailAndPassword.then.catchError to handle registering users
+                                  _auth.createUserWithEmailAndPassword(
+                                      email: email, password: password).then((
+                                      results) {
+                                        //Adding student to documents with the First Name field set and their document ID as their Authentication UID
+                                    students.doc(_auth.currentUser.uid).set({
+                                      'First Name': firstname
                                     });
-
-                                  }
-                                  catch (e) {
-                                    print(e);
-                                  }
+                                    Navigator.pushNamed(context, HomePage.id);
+                                  }).catchError((error) {
+                                    print(error.message);
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Error"),
+                                            content: Text(error.message),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text("Ok"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  });
+                                  //Setting spinner animation to false
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
                                 }
-
                               },
                               color: shockerYellow,
                               child: Text(
@@ -262,6 +153,156 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FirstNameField extends StatelessWidget {
+  @override
+
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left:30, right:30),
+      //Username field
+      child: TextFormField(
+        onChanged: (value) {
+          //Saving the value that the user enters in as username
+          firstname = value;
+        },
+        //Validator for the field
+        validator: (String value){
+          return value.isEmpty ? 'Please enter in a First Name' : null;
+        },
+        textAlign: TextAlign.right,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.people,
+              color: Colors.white,
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                  width: 2.5,
+                )
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: shockerYellow,
+                  width: 1,
+                )
+            ),
+            hintText: 'First Name',
+            hintStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.white
+            ),
+            errorStyle: TextStyle(
+              color: shockerYellow,
+              fontSize: 15,
+            )
+        ),
+      ),
+    );
+  }
+}
+
+class EmailField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left:30, right:30),
+      //Email field
+      child: TextFormField(
+        onChanged: (value) {
+          //Saving the value that the user enters in as email
+          email = value;
+        },
+        //Validator for the field
+        validator: (String value){
+          return !value.contains('@') ? 'Not a valid Email' : null;
+        },
+        keyboardType: TextInputType.emailAddress,
+        textAlign: TextAlign.right,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.email,
+            color: Colors.white,
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+                width: 2.5,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: shockerYellow,
+                width: 1,
+              )
+          ),
+          hintText: 'Email',
+          hintStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+          ),
+          errorStyle: TextStyle(
+            color: shockerYellow,
+            fontSize: 15,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PasswordField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left:30, right:30),
+      //Password field
+      child: TextFormField(
+        onChanged: (value) {
+          //Saving the value that the user enters in as password
+          password = value;
+        },
+        //validator for the field
+        validator: (String value){
+          return value.isEmpty ? 'Please enter in a Password' : null;
+        },
+        obscureText: true,
+        textAlign: TextAlign.right,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.lock_outline,
+            color: Colors.white,
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+                width: 2.5,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: shockerYellow,
+                width: 1,
+              )
+          ),
+          hintText: 'Password',
+          hintStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+          ),
+          errorStyle: TextStyle(
+            color: shockerYellow,
+            fontSize: 15,
           ),
         ),
       ),
