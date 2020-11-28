@@ -161,7 +161,7 @@ class _GreetingState extends State<Greeting> {
             );
           }
         } else if (snapshot.connectionState == ConnectionState.none) {
-          return Text('Hello');
+          return Text('Null');
         }
         return Text('Null');
       },
