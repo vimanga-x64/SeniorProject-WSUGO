@@ -23,42 +23,40 @@ Main construction of page
 class _FoodPageState extends State<FoodPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: shockerBlack),
-            title: Text(
-              'Dining Options',
-              style: GoogleFonts.josefinSans(
-                fontWeight: FontWeight.w800,
-                color: shockerBlack,
-              ),
-            ),
-            backgroundColor: shockerYellow,
-            bottom: TabBar(
-              indicatorColor: shockerBlack,
-              labelColor: shockerBlack,
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.place),
-                  text: 'Food Truck Plaza',
-                ),
-                Tab(
-                  icon: Icon(Icons.fastfood),
-                  text: 'Other',
-                ),
-              ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: shockerBlack),
+          title: Text(
+            'Dining Options',
+            style: GoogleFonts.josefinSans(
+              fontWeight: FontWeight.w800,
+              color: shockerBlack,
             ),
           ),
-          drawer: CustomDrawer(),
-          body: TabBarView(
-            children: [
-              TwitterAPI(),
-              OtherFood(),
+          backgroundColor: shockerYellow,
+          bottom: TabBar(
+            indicatorColor: shockerBlack,
+            labelColor: shockerBlack,
+            tabs: [
+              Tab(
+                icon: Icon(Icons.place),
+                text: 'Food Truck Plaza',
+              ),
+              Tab(
+                icon: Icon(Icons.fastfood),
+                text: 'Other',
+              ),
             ],
           ),
+        ),
+        drawer: CustomDrawer(),
+        body: TabBarView(
+          children: [
+            TwitterAPI(),
+            OtherFood(),
+          ],
         ),
       ),
     );
