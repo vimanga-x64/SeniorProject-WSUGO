@@ -5,6 +5,8 @@ import './home_page.dart';
 import './food_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './login_page.dart';
+import './calendar_page.dart';
+import './weather.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -36,14 +38,18 @@ class CustomDrawer extends StatelessWidget {
                       ),
                    )),  
                 CustomListTile(Icons.home,'Home', ()=>{
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
-                      }),
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
+                }),
                 CustomListTile(Icons.fastfood,'Food', ()=>{
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
-                      }),
-                CustomListTile(Icons.event_note,'Schedule', ()=>{}),
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
+                }),
+                CustomListTile(Icons.event_note,'Calendar', ()=>{
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
+                }),
                 //Icons.wb_sunny_outlined
-                CustomListTile(Icons.wb_sunny,'Weather', ()=>{}),
+                CustomListTile(Icons.wb_sunny,'Weather', ()=>{
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherApp()))
+                }),
                 //Icons.logout
                 CustomListTile(Icons.exit_to_app,'Logout', 
                   ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
