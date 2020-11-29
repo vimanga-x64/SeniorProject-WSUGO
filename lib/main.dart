@@ -4,6 +4,7 @@ import 'package:wsu_go/screens/register_page.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/food_page.dart';
+import 'screens/calendar_page.dart';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -30,6 +31,7 @@ class WSUGo extends StatelessWidget {
         HomePage.id: (context) => HomePage(),
         FoodPage.id: (context) => FoodPage(),
         Register.id: (context) => Register(),
+        CalendarPage.id: (context) => CalendarPage(),
       },
     );
   }
