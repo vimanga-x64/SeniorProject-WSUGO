@@ -8,7 +8,6 @@ import 'package:wsu_go/screens/register_page.dart';
 import 'package:wsu_go/screens/home_page.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-
 class Login extends StatefulWidget {
   //Providing an id for routes to target
   static const String id = 'login_page';
@@ -36,7 +35,7 @@ class _LoginState extends State<Login> {
       //Decoration property to set our static background image
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/loginbackground.png'),
+          image: AssetImage('images/login.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -60,15 +59,7 @@ class _LoginState extends State<Login> {
                       height: 25,
                     ),
                     //Heading Title
-                    Text(
-                      'WSUGo!',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.josefinSans(
-                        textStyle: TextStyle(
-                            fontSize: 80,
-                            fontWeight: FontWeight.w800),
-                        ),
-                    ),
+                    Image.asset('images/logo3x.png'),
                     //WU LOGO
                     CircleAvatar(
                       radius: 100,
@@ -76,9 +67,9 @@ class _LoginState extends State<Login> {
                       child: Image.asset('images/wsulogo.png'),
                     ),
                     SizedBox(
-                      height: 50,
+                      height: 25,
                     ),
-                    //Container to allow padding for TextField
+                    //Custom Widget
                     Container(
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: TextFormField(
@@ -99,10 +90,10 @@ class _LoginState extends State<Login> {
                             color: Colors.white,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2.5
-                            )
+                              borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.5
+                              )
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -120,12 +111,13 @@ class _LoginState extends State<Login> {
                             fontSize: 15,
                           ),
                         ),
+                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    //Container to allow padding for TextField
+                    //Custom Widget
                     Container(
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: TextFormField(
@@ -159,14 +151,15 @@ class _LoginState extends State<Login> {
                           ),
                           hintText: 'Password',
                           hintStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white
+                              fontSize: 15,
+                              color: Colors.white
                           ),
                           errorStyle: TextStyle(
                             color: shockerYellow,
                             fontSize: 15,
                           ),
                         ),
+                        onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
                       ),
                     ),
                     SizedBox(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import './home_page.dart';
 import './food_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import './login_page.dart';
+import 'package:wsu_go/screens/login_page.dart';
 import './calendar_page.dart';
 import './weather.dart';
 

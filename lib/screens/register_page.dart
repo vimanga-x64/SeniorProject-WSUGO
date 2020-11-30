@@ -41,7 +41,7 @@ class _RegisterState extends State<Register> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/registerbackground.png'),
+          image: AssetImage('images/register.png'),
           fit: BoxFit.cover,
         )
       ),
@@ -136,6 +136,8 @@ class _RegisterState extends State<Register> {
                                   setState(() {
                                     showSpinner = false;
                                   });
+                                } else {
+                                  FocusScope.of(context).previousFocus();
                                 }
                               },
                               color: shockerYellow,
@@ -205,6 +207,7 @@ class FirstNameField extends StatelessWidget {
               fontSize: 15,
             )
         ),
+        onEditingComplete: () => FocusScope.of(context).nextFocus(),
       ),
     );
   }
@@ -255,6 +258,7 @@ class EmailField extends StatelessWidget {
             fontSize: 15,
           ),
         ),
+        onEditingComplete: () => FocusScope.of(context).nextFocus(),
       ),
     );
   }
@@ -305,6 +309,7 @@ class PasswordField extends StatelessWidget {
             fontSize: 15,
           ),
         ),
+        onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
       ),
     );
   }
