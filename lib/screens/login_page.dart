@@ -69,7 +69,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 25,
                     ),
-                    //Custom Widget
+                    //Email Field
                     Container(
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: TextFormField(
@@ -117,7 +117,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 10,
                     ),
-                    //Custom Widget
+                    //Password Field
                     Container(
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: TextFormField(
