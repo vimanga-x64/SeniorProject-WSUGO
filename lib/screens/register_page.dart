@@ -41,7 +41,7 @@ class _RegisterState extends State<Register> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/registerbackground.png'),
+          image: AssetImage('images/register.png'),
           fit: BoxFit.cover,
         )
       ),
@@ -56,100 +56,106 @@ class _RegisterState extends State<Register> {
               //Declaring our formKey as key to this form
               key: formKey,
               child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Text(
-                      'Register',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.josefinSans(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 80,
-                          fontWeight: FontWeight.w800,
-                        )
+                //Widget to prevent pixel overflow
+                child: SingleChildScrollView(
+                  //Start of main widgets
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: 25,
                       ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                    FirstNameField(),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    EmailField(),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    PasswordField(),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.center,
-                      children: [
-                        ButtonTheme(
-                          minWidth: 70,
-                          height: 45,
-                            child: RaisedButton(
-                              //Turning onPressed into an async method to make sure user is finished creating their fields
-                              onPressed: () async {
-                                //If statement to check the form's validator
-                                if (formKey.currentState.validate()) {
-                                  //Setting spinner animation to true
-                                  setState(() {
-                                    showSpinner = true;
-                                  });
-                                  //Using .createUserWithEmailAndPassword.then.catchError to handle registering users
-                                  _auth.createUserWithEmailAndPassword(
-                                      email: email, password: password).then((
-                                      results) {
-                                        //Adding student to documents with the First Name field set and their document ID as their Authentication UID
-                                    students.doc(_auth.currentUser.uid).set({
-                                      'First Name': firstname
+                      Text(
+                        'Register',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.josefinSans(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 80,
+                            fontWeight: FontWeight.w800,
+                          )
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100,
+                      ),
+                      FirstNameField(),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      EmailField(),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      PasswordField(),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      ButtonBar(
+                        alignment: MainAxisAlignment.center,
+                        children: [
+                          ButtonTheme(
+                            minWidth: 70,
+                            height: 45,
+                              child: RaisedButton(
+                                //Turning onPressed into an async method to make sure user is finished creating their fields
+                                onPressed: () async {
+                                  //If statement to check the form's validator
+                                  if (formKey.currentState.validate()) {
+                                    //Setting spinner animation to true
+                                    setState(() {
+                                      showSpinner = true;
                                     });
-                                    Navigator.pushNamed(context, HomePage.id);
-                                  }).catchError((error) {
-                                    print(error.message);
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text("Error"),
-                                            content: Text(error.message),
-                                            actions: [
-                                              FlatButton(
-                                                child: Text("Ok"),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        }
-                                    );
-                                  });
-                                  //Setting spinner animation to false
-                                  setState(() {
-                                    showSpinner = false;
-                                  });
-                                }
-                              },
-                              color: shockerYellow,
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  color: Colors.black,
+                                    //Using .createUserWithEmailAndPassword.then.catchError to handle registering users
+                                    _auth.createUserWithEmailAndPassword(
+                                        email: email, password: password).then((
+                                        results) {
+                                          //Adding student to documents with the First Name field set and their document ID as their Authentication UID
+                                      students.doc(_auth.currentUser.uid).set({
+                                        'First Name': firstname
+                                      });
+                                      Navigator.pushNamed(context, HomePage.id);
+                                    }).catchError((error) {
+                                      print(error.message);
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Error"),
+                                              content: Text(error.message),
+                                              actions: [
+                                                FlatButton(
+                                                  child: Text("Ok"),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          }
+                                      );
+                                    });
+                                    //Setting spinner animation to false
+                                    setState(() {
+                                      showSpinner = false;
+                                    });
+                                  } else {
+                                    FocusScope.of(context).previousFocus();
+                                  }
+                                },
+                                color: shockerYellow,
+                                child: Text(
+                                  'Register',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                        )
-                      ],
-                    ),
-                  ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -205,6 +211,7 @@ class FirstNameField extends StatelessWidget {
               fontSize: 15,
             )
         ),
+        onEditingComplete: () => FocusScope.of(context).nextFocus(),
       ),
     );
   }
@@ -255,6 +262,7 @@ class EmailField extends StatelessWidget {
             fontSize: 15,
           ),
         ),
+        onEditingComplete: () => FocusScope.of(context).nextFocus(),
       ),
     );
   }
@@ -305,6 +313,7 @@ class PasswordField extends StatelessWidget {
             fontSize: 15,
           ),
         ),
+        onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
       ),
     );
   }

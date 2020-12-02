@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import './home_page.dart';
 import './food_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import './login_page.dart';
+import 'package:wsu_go/screens/login_page.dart';
 import './calendar_page.dart';
 import './weather.dart';
 
@@ -27,13 +27,14 @@ class CustomDrawer extends StatelessWidget {
                     child: Container (
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 20,
+                          ),
                            Material(
                              borderRadius: BorderRadius.all(Radius.circular(50.0)),
                              elevation: 10,
-                             child: Image.asset('images/wsulogo.png', width: 100, height: 100,),
+                             child: Image.asset('images/logo3x.png'),
                            ),
-                          Padding(padding: EdgeInsets.all(5.0), 
-                            child: Text('WSUGo', style: TextStyle(color: Colors.white, fontSize: 21.0),),)
                         ],
                       ),
                    )),  
