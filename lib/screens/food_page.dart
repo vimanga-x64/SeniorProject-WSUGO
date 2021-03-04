@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../food_data.dart';
 import './drawer.dart';
+// Import Cloud Firestore package
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodPage extends StatefulWidget {
   static const String id = 'food_page';
@@ -55,7 +57,8 @@ class _FoodPageState extends State<FoodPage> {
         body: TabBarView(
           children: [
             TwitterAPI(),
-            OtherFood(),
+            //OtherFood(),
+            rscData(),
           ],
         ),
       ),
@@ -108,13 +111,16 @@ Construction of Other tab
 #######################################################
 */
 
-class OtherFood extends StatefulWidget {
+/*class OtherFood extends StatefulWidget {
   @override
   _OtherFoodState createState() => _OtherFoodState();
 }
 
 class _OtherFoodState extends State<OtherFood> {
+
+  //Accessing static data
   var rscData = FoodData.rscData;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -393,6 +399,55 @@ class _OtherFoodState extends State<OtherFood> {
           ),
         ),
       ],
+    );
+  }
+}*/
+
+//Going to display the RSC data from Firestore
+class rscData extends StatefulWidget {
+  @override
+  _rscDataState createState() => _rscDataState();
+}
+
+class _rscDataState extends State<rscData> {
+
+  @override
+  Widget build(BuildContext context) {
+    //Creating a stream variable that holds <QuerySnapshots> of 'rscData' collection
+    Stream collectionStream = FirebaseFirestore.instance.collection('rscData').snapshots();
+
+    //Using StreamBuilder widget to have app change data when Database is changed
+    return StreamBuilder<QuerySnapshot>(
+      //Passing our steam into stream property
+      stream: collectionStream,
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+        if(snapshot.hasError){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        //If Connection is done
+        if(snapshot.connectionState == ConnectionState.done){
+
+          //Final variable to hold a List of <QueryDocumentSnapshots>
+          final restaurants = snapshot.data.docs;
+          var DataList = [];
+
+          //Cycling through each Document (Restaurants)
+          restaurants.forEach((restaurant) {
+            print(restaurant["Hours"]);
+          });
+        }
+
+        return Column(
+          children: [
+            Text('Test'),
+          ],
+        );
+
+      },
     );
   }
 }
