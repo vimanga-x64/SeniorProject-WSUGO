@@ -3,10 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../food_data.dart';
 import './drawer.dart';
 // Import Cloud Firestore package
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../food_data.dart';
+
+
+//List of Restaurant ID in Firestore
+List<String> restaurantID = [];
+
+//List of Restaurant Objects that are waiting to be added when going through Restaurant Collection in Firestore
+List<Restaurant> restaurantObjects = [];
 
 class FoodPage extends StatefulWidget {
   static const String id = 'food_page';
@@ -411,10 +418,20 @@ class rscData extends StatefulWidget {
 
 class _rscDataState extends State<rscData> {
 
+  Stream<Restaurant> streamRestaurant(String id){
+    return FirebaseFirestore.instance.collection('rscData').document(id).get().then(function(querySnapshot){
+        querySnapshot.docs.forEach(function(doc) {
+        restaurantID.add(doc.id);
+      });
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     //Creating a stream variable that holds <QuerySnapshots> of 'rscData' collection
-    Stream collectionStream = FirebaseFirestore.instance.collection('rscData').snapshots();
+    Stream collectionStream =
+        FirebaseFirestore.instance.collection('rscData').snapshots();
 
     //Using StreamBuilder widget to have app change data when Database is changed
     return StreamBuilder<QuerySnapshot>(
@@ -422,23 +439,22 @@ class _rscDataState extends State<rscData> {
       stream: collectionStream,
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
-        if(snapshot.hasError){
+        if (snapshot.hasError) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
 
         //If Connection is done
-        if(snapshot.connectionState == ConnectionState.done){
+        if (snapshot.connectionState == ConnectionState.done) {
 
           //Final variable to hold a List of <QueryDocumentSnapshots>
           final restaurants = snapshot.data.docs;
-          var DataList = [];
 
           //Cycling through each Document (Restaurants)
-          restaurants.forEach((restaurant) {
-            print(restaurant["Hours"]);
-          });
+          for(var restaurant in restaurants){
+
+          }
         }
 
         return Column(
@@ -446,7 +462,6 @@ class _rscDataState extends State<rscData> {
             Text('Test'),
           ],
         );
-
       },
     );
   }
