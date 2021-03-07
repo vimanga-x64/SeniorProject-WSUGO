@@ -10,8 +10,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../food_data.dart';
 
 
+
+
 class FoodPage extends StatefulWidget {
   static const String id = 'food_page';
+
   @override
   _FoodPageState createState() => _FoodPageState();
 }
@@ -25,6 +28,8 @@ Main construction of page
 */
 
 class _FoodPageState extends State<FoodPage> {
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -108,302 +113,10 @@ class _TwitterAPIState extends State<TwitterAPI> {
 /*
 #######################################################
 
-Construction of Other tab
+Construction of rscData tab
 
 #######################################################
 */
-
-/*class OtherFood extends StatefulWidget {
-  @override
-  _OtherFoodState createState() => _OtherFoodState();
-}
-
-class _OtherFoodState extends State<OtherFood> {
-
-  //Accessing static data
-  var rscData = FoodData.rscData;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 10,
-        ),
-        Center(
-          child: Text(
-            'Rhatigan Student Center',
-            textAlign: TextAlign.left,
-            style: GoogleFonts.josefinSans(
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
-              color: shockerBlack,
-            ),
-          ),
-        ),
-        Divider(
-          color: shockerBlack,
-          height: 10,
-          thickness: 1,
-          indent: 0,
-          endIndent: 0,
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: rscData.length,
-            itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          rscData[index]['location'],
-                          textAlign: TextAlign.left,
-                          style: GoogleFonts.josefinSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
-                            color: shockerBlack,
-                          ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tSunday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Sun'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tMonday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Mon'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tTuesday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Tue'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tWednesday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Wed'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tThursday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Thu'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tFriday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Fri'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                '\t\t\t\tSaturday:',
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Text(
-                                rscData[index]['Sat'],
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.josefinSans(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: shockerBlack,
-                                ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: SizedBox(width: 30),
-                              flex: 3,
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          color: shockerYellow,
-                          height: 10,
-                          thickness: 1,
-                          indent: 0,
-                          endIndent: 0,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}*/
 
 //Going to display the RSC data from Firestore
 class rscData extends StatefulWidget {
@@ -412,22 +125,15 @@ class rscData extends StatefulWidget {
 }
 
 class _rscDataState extends State<rscData> {
-  /*Stream<Restaurant> streamRestaurant(String id) {
-    var ref = FirebaseFirestore.instance.collection('rscData');
-
-    return ref.doc(id).snapshots().map((doc) => Restaurant.fromFirestore(doc));
-  }*/
+  //List of Restaurant ID in Firestore
+  List<String> restaurantID = [];
+  //List of Restaurant Objects that are waiting to be added when going through Restaurant Collection in Firestore
+  List<Restaurant> restaurantObjects = [];
 
   @override
   Widget build(BuildContext context) {
     //Creating a stream variable that holds <QuerySnapshots> of 'rscData' collection
-    Stream collectionStream =
-        FirebaseFirestore.instance.collection('rscData').snapshots();
-
-    //List of Restaurant ID in Firestore
-    List<String> restaurantID = [];
-    //List of Restaurant Objects that are waiting to be added when going through Restaurant Collection in Firestore
-    List<Restaurant> restaurantObjects = [];
+    Stream collectionStream = FirebaseFirestore.instance.collection('rscData').snapshots();
 
     //Using StreamBuilder widget to have app change data when Database is changed
     return StreamBuilder<QuerySnapshot>(
@@ -466,6 +172,27 @@ class _rscDataState extends State<rscData> {
 
         return Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Text(
+                'Rhatigan Student Center',
+                textAlign: TextAlign.left,
+                style: GoogleFonts.josefinSans(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  color: shockerBlack,
+                ),
+              ),
+            ),
+            Divider(
+              color: shockerBlack,
+              height: 10,
+              thickness: 1,
+              indent: 0,
+              endIndent: 0,
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: restaurantObjects.length,
