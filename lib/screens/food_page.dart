@@ -10,8 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../food_data.dart';
 
 
-
-
 class FoodPage extends StatefulWidget {
   static const String id = 'food_page';
 
@@ -64,7 +62,6 @@ class _FoodPageState extends State<FoodPage> {
         body: TabBarView(
           children: [
             TwitterAPI(),
-            //OtherFood(),
             rscData(),
           ],
         ),
@@ -125,8 +122,6 @@ class rscData extends StatefulWidget {
 }
 
 class _rscDataState extends State<rscData> {
-  //List of Restaurant ID in Firestore
-  List<String> restaurantID = [];
   //List of Restaurant Objects that are waiting to be added when going through Restaurant Collection in Firestore
   List<Restaurant> restaurantObjects = [];
 
@@ -148,15 +143,10 @@ class _rscDataState extends State<rscData> {
 
         //If Connection is done
         if (snapshot.hasData) {
-
-
           //Final variable to hold a List<QueryDocumentSnapshots>
           final restaurants = snapshot.data.docs;
-
           //Cycling through each Document (Restaurants)
           for (var restaurant in restaurants) {
-            //For each restaurant, add their location value as a string in restaurantID variable
-            restaurantID.add(restaurant.data()['location']);
             //Create a Restaurant Object and pass it to the restaurantObjects variable
             restaurantObjects.add(Restaurant(
                 location: restaurant.data()['location'],
