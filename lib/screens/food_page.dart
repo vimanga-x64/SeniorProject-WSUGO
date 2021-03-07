@@ -8,7 +8,6 @@ import './drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../food_data.dart';
 
-
 //List of Restaurant ID in Firestore
 List<String> restaurantID = [];
 
@@ -417,15 +416,11 @@ class rscData extends StatefulWidget {
 }
 
 class _rscDataState extends State<rscData> {
+  /*Stream<Restaurant> streamRestaurant(String id) {
+    var ref = FirebaseFirestore.instance.collection('rscData');
 
-  Stream<Restaurant> streamRestaurant(String id){
-    return FirebaseFirestore.instance.collection('rscData').document(id).get().then(function(querySnapshot){
-        querySnapshot.docs.forEach(function(doc) {
-        restaurantID.add(doc.id);
-      });
-    });
-  }
-
+    return ref.doc(id).snapshots().map((doc) => Restaurant.fromFirestore(doc));
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -438,7 +433,6 @@ class _rscDataState extends State<rscData> {
       //Passing our steam into stream property
       stream: collectionStream,
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
         if (snapshot.hasError) {
           return Center(
             child: CircularProgressIndicator(),
@@ -446,20 +440,29 @@ class _rscDataState extends State<rscData> {
         }
 
         //If Connection is done
-        if (snapshot.connectionState == ConnectionState.done) {
-
-          //Final variable to hold a List of <QueryDocumentSnapshots>
+        if (snapshot.hasData) {
+          //Final variable to hold a List<QueryDocumentSnapshots>
           final restaurants = snapshot.data.docs;
 
           //Cycling through each Document (Restaurants)
-          for(var restaurant in restaurants){
+          for (var restaurant in restaurants) {
+            restaurantID.add(restaurant.data()['location']);
 
+            restaurantObjects.add(Restaurant(
+                location: restaurant.data()['location'],
+                mon: restaurant.data()['mon'],
+                tue: restaurant.data()['tue'],
+                wed: restaurant.data()['wed'],
+                thu: restaurant.data()['thu'],
+                fri: restaurant.data()['fri'],
+                sat: restaurant.data()['sat'],
+                sun: restaurant.data()['sun']));
           }
         }
 
         return Column(
           children: [
-            Text('Test'),
+            Text(restaurantObjects[1].location),
           ],
         );
       },
