@@ -14,132 +14,102 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Drawer menu creation
     return Drawer(
-        child: ListView(
-      children: [
-        DrawerHeader(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: <Color>[shockerYellow, shockerYellow])),
-            child: Container(
-              child: Column(
-                children: [
-                  Material(
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    elevation: 10,
-                    child: Image.asset(
-                      'images/wsulogo.png',
-                      width: 100,
-                      height: 100,
+            child: ListView(
+              children: [
+                //Header box creation and stylization
+                DrawerHeader(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: <Color>[shockerYellow, shockerYellow])
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text(
-                      'WSUGo',
-                      style: TextStyle(color: Colors.white, fontSize: 21.0),
-                    ),
-                  )
-                ],
-              ),
-            )),
-        CustomListTile(
-            Icons.home,
-            'Home',
-            () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => HomePage()))
-                }),
-        CustomListTile(
-            Icons.fastfood,
-            'Food',
-            () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => FoodPage()))
-                }),
-        CustomListTile(
-            Icons.event_note,
-            'Calendar',
-            () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => CalendarPage()))
-                }),
-        //Icons.wb_sunny_outlined
-        CustomListTile(
-            Icons.wb_sunny,
-            'Weather',
-            () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => WeatherApp()))
-                }),
-        CustomListTile(
-            Icons.book,
-            'Courses',
-            () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => CoursePage()))
-                }),
+                    child: Container (
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20
+                          ),
+                           Material(
+                             borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                             elevation: 10,
+                             child: Image.asset('images/logo3x.png'),
+                           ),
+                        ],
+                      ),
+                   )),
+        CustomListTile(Icons.home,'Home', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
+        }),
+        CustomListTile(Icons.fastfood,'Food', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
+        }),
+        CustomListTile(Icons.event_note,'Calendar', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
+        }),
+        CustomListTile(Icons.wb_sunny,'Weather', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherApp()))
+        }),
+        CustomListTile(Icons.book,'Courses', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CoursePage()))
+        }),
         //Icons.logout
-        CustomListTile(
-            Icons.exit_to_app,
-            'Logout',
-            () => {
-                  {_auth.signOut(), Navigator.pushNamed(context, Login.id)}
-                }),
-      ],
-    ));
+        CustomListTile(Icons.exit_to_app,'Logout', 
+                  ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
+        ],)    
+    );
   }
 }
 
-class CustomListTile extends StatelessWidget {
+//Class for stylization and function of tiles
+class CustomListTile extends StatelessWidget{
+
+  //Constructor for custom variables
+  CustomListTile(this.icon,this.text, this.onTap);
+
+  //Custom variables
   IconData icon;
   String text;
   Function onTap;
 
-  CustomListTile(this.icon, this.text, this.onTap);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      //Tile border stylization
+      padding: const EdgeInsets.all(9),
       child: Container(
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
+          border: Border(bottom: BorderSide(color: Colors.grey.shade600))
+         ),
         child: InkWell(
           splashColor: shockerYellow,
-          onTap: onTap,
+         //Get the custom route
+         onTap: onTap,
           child: Container(
-            height: 50,
-            child: Row(
+            //Height of each tile
+           height: 50,
+           child: Row(
+             //Align arrows on the far right
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+               Row(
                   children: [
+                    //Get the custom icon
                     Icon(icon),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                      child: Text(
-                        text,
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
-                  ],
-                ),
-                Icon(Icons.arrow_right)
-              ],
-            ),
+                   Padding(
+                     //Title stylization
+                      padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                      //Get custom title text
+                      child: Text(text, style: TextStyle(
+                      fontSize: 18.0
+                    ),),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios_outlined)
+            ],
           ),
         ),
+      ),
       ),
     );
   }
