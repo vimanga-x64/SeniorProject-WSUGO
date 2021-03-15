@@ -27,7 +27,7 @@ class CustomDrawer extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 20
+                            height: 20,
                           ),
                            Material(
                              borderRadius: BorderRadius.all(Radius.circular(50.0)),
