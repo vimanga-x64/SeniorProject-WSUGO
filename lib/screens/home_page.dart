@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
 // Import Cloud Firestore package
@@ -8,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants.dart';
 import './drawer.dart';
 import './weather.dart';
+import 'package:wsu_go/WeatherData.dart';
+import 'package:wsu_go/WeatherItem.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -16,10 +20,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  WeatherData weather = new WeatherData();
+  bool isLoading = false;
   //Creating an instance for Firestore, students
   //Tapping into our collection of Students
   CollectionReference students =
       FirebaseFirestore.instance.collection('Students');
+  @override
+  void initState() {
+    super.initState();
+    
+    loadWeather();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +42,17 @@ class _HomePageState extends State<HomePage> {
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: shockerBlack),
         actions: <Widget>[
+          Text('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500)),
           IconButton(
             icon: const Icon(Icons.wb_sunny),
             color: shockerYellow,
             tooltip: 'Weather',
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => WeatherApp()));
+                  .push(MaterialPageRoute(builder: (context) => MyApp()));
             },
-          )
+          ),
+          //Text('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w100)),
         ],
       ),
       drawer: CustomDrawer(),
@@ -78,6 +92,32 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+  loadWeather() async {
+    setState(() {
+      isLoading = true;
+    });
+
+
+    final lat = 37.6922;
+    final lon = -97.3375;
+
+    final weatherResponse = await http.get(
+        'https://api.openweathermap.org/data/2.5/weather?&units=imperial&APPID=b019ccfb8dc5321a73fdd9c6396105d8&lat=${lat
+            .toString()}&lon=${lon.toString()}');
+
+    if (weatherResponse.statusCode == 200) {
+      return setState(() {
+        weather =
+        new WeatherData.fromJson(jsonDecode(weatherResponse.body));
+        isLoading = false;
+      });
+    }
+
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }
 

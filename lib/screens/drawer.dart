@@ -49,7 +49,7 @@ class CustomDrawer extends StatelessWidget {
                 }),
                 //Icons.wb_sunny_outlined
                 CustomListTile(Icons.wb_sunny,'Weather', ()=>{
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherApp()))
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyApp()))
                 }),
                 //Icons.logout
                 CustomListTile(Icons.exit_to_app,'Logout', 
