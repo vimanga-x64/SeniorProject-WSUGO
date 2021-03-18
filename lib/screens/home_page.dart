@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
             tooltip: 'Weather',
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => MyApp()));
+                  .push(MaterialPageRoute(builder: (context) => WeatherPage()));
             },
           ),
           //Text('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w100)),

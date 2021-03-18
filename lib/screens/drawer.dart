@@ -7,22 +7,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wsu_go/screens/login_page.dart';
 import './calendar_page.dart';
 import './weather.dart';
+import './course_page.dart';
 
 class CustomDrawer extends StatelessWidget {
-
   final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+    //Drawer menu creation
     return Drawer(
             child: ListView(
               children: [
+                //Header box creation and stylization
                 DrawerHeader(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: <Color>[
-                        shockerYellow,
-                        shockerYellow
-                      ])
+                      gradient: LinearGradient(colors: <Color>[shockerYellow, shockerYellow])
                     ),
                     child: Container (
                       child: Column(
@@ -38,63 +37,76 @@ class CustomDrawer extends StatelessWidget {
                         ],
                       ),
                    )),  
-                CustomListTile(Icons.home,'Home', ()=>{
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
-                }),
-                CustomListTile(Icons.fastfood,'Food', ()=>{
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
-                }),
-                CustomListTile(Icons.event_note,'Calendar', ()=>{
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
-                }),
-                //Icons.wb_sunny_outlined
-                CustomListTile(Icons.wb_sunny,'Weather', ()=>{
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MyApp()))
-                }),
-                //Icons.logout
-                CustomListTile(Icons.exit_to_app,'Logout', 
+
+        CustomListTile(Icons.home,'Home', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
+        }),
+        CustomListTile(Icons.fastfood,'Food', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
+        }),
+        CustomListTile(Icons.event_note,'Calendar', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
+        }),
+        CustomListTile(Icons.wb_sunny,'Weather', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherPage()))
+        }),
+        CustomListTile(Icons.book,'Courses', ()=>{
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CoursePage()))
+        }),
+        //Icons.logout
+        CustomListTile(Icons.exit_to_app,'Logout',
                   ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
-            ],)
-          );
+        ],)    
+    );
   }
 }
 
+//Class for stylization and function of tiles
 class CustomListTile extends StatelessWidget{
 
+  //Constructor for custom variables
+  CustomListTile(this.icon,this.text, this.onTap);
+
+  //Custom variables
   IconData icon;
   String text;
   Function onTap;
 
-  CustomListTile(this.icon,this.text, this.onTap);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      //Tile border stylization
+      padding: const EdgeInsets.all(9),
       child: Container(
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+          border: Border(bottom: BorderSide(color: Colors.grey.shade600))
          ),
         child: InkWell(
           splashColor: shockerYellow,
+         //Get the custom route
          onTap: onTap,
           child: Container(
+            //Height of each tile
            height: 50,
            child: Row(
+             //Align arrows on the far right
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                Row(
                   children: [
+                    //Get the custom icon
                     Icon(icon),
                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                     //Title stylization
+                      padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                      //Get custom title text
                       child: Text(text, style: TextStyle(
-                      fontSize: 16.0
+                      fontSize: 18.0
                     ),),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_right)
+              Icon(Icons.arrow_forward_ios_outlined)
             ],
           ),
         ),

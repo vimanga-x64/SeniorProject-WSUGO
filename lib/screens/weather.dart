@@ -12,16 +12,16 @@ import './drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(new WeatherPage());
 
-class MyApp extends StatefulWidget {
+class WeatherPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
+class MyAppState extends State<WeatherPage> {
   bool isLoading = false;
   WeatherData weatherData;
   ForecastData forecastData;
