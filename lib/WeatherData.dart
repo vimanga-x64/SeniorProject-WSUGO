@@ -13,11 +13,12 @@ class WeatherData {
   final humidity;
   final windspeed;
   final visibilty;
+  final feelslike;
   //DateTime sunrise;
   //DateTime sunset;
 
   WeatherData({this.date, this.name, this.temp, this.main, this.icon, this.high, this.low,
-  this.humidity, this.visibilty, this.windspeed});
+  this.humidity, this.visibilty, this.windspeed, this.feelslike});
 
   factory WeatherData.fromJson(Map<String, dynamic> json) {
     return  WeatherData(
@@ -29,7 +30,8 @@ class WeatherData {
       low: json['main']['temp_min'].round(),
       humidity: json['main']['humidity'],
       windspeed: json['wind']['speed'],
-      visibilty: json['visibility']
+      visibilty: json['visibility'],
+      feelslike: json['main']['feels_like'].round()
       //icon: json['weather'][0]['icon'],
     );
 

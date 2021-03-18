@@ -93,7 +93,7 @@ class MyAppState extends State<WeatherPage> {
                               title: Text("Feels Like", style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20
                               ),),
-                              trailing: Text(weatherData.humidity.toString() + " °F"),
+                              trailing: Text(weatherData.feelslike.toString() + " °F"),
                             ),
                             ListTile(
                               leading: FaIcon(FontAwesomeIcons.eye),
