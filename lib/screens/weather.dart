@@ -37,9 +37,7 @@ class MyAppState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather',
-      home: Scaffold(
+    return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text('Weather',
@@ -68,7 +66,7 @@ class MyAppState extends State<WeatherPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: 150.0,
+                          height: 200.0,
                           child: forecastData != null ? ListView.builder(
                               itemCount: forecastData.list.length,
                               scrollDirection: Axis.horizontal,
@@ -125,8 +123,7 @@ class MyAppState extends State<WeatherPage> {
                     ]
               )
           )
-      ),
-    );
+      );
   }
 
   loadWeather() async {
