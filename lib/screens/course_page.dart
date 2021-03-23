@@ -1,10 +1,11 @@
-import 'package:flutter/semantics.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wsu_go/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import './drawer.dart';
 import './add_course.dart';
+
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CoursePage extends StatefulWidget {
   static const String id = 'course_page';
