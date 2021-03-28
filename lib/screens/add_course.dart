@@ -72,149 +72,150 @@ class CourseFormState extends State<CourseForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 25,
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 25,
+            ),
 
-          //1st Row of Input Boxes
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
-              //Course Initials Textbox
-              Expanded(child: CourseInitialsField()),
+            //1st Row of Input Boxes
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
+                //Course Initials Textbox
+                Expanded(child: CourseInitialsField()),
 
-              SizedBox(
-                width: 20,
-              ),
+                SizedBox(
+                  width: 20,
+                ),
 
-              //Course Number Textbox
-              Expanded(child: CourseNumsField()),
+                //Course Number Textbox
+                Expanded(child: CourseNumsField()),
 
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
 
-          SizedBox(
-            height: 20,
-          ),
+            SizedBox(
+              height: 20,
+            ),
 
-          //2nd Row of Input Boxes
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
-              //Building Name Textbox
-              Expanded(child: BuildingField()),
+            //2nd Row of Input Boxes
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
+                //Building Name Textbox
+                Expanded(child: BuildingField()),
 
-              SizedBox(
-                width: 20,
-              ),
+                SizedBox(
+                  width: 20,
+                ),
 
-              //Room Number Textbox
-              Expanded(child: RoomNumField()),
+                //Room Number Textbox
+                Expanded(child: RoomNumField()),
 
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
 
-          SizedBox(
-            height: 20,
-          ),
+            SizedBox(
+              height: 20,
+            ),
 
-/*
-          //3rd Row of Input Boxes
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: 20,
-              ),
+            //3rd Row of Input Boxes
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ),
 
-              //Start Time Textbox
-              Expanded(child: StartTimeField()),
+                //Start Time Button
+                Expanded(child: TimePicker()),
 
-              SizedBox(
-                width: 20,
-              ),
+                SizedBox(
+                  width: 20,
+                ),
 
-              //End Time Textbox
-              Expanded(child: RoomNumField()),
+                //End Time Textbox
+                Expanded(child: TimePicker()),
 
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
 
-          SizedBox(
-            height: 20,
-          ),
-*/
+            SizedBox(
+              height: 20,
+            ),
 
-          //Weekday Toggle buttons
-          ToggleButtons(
-            children: <Widget>[
-              Text('Su'),
-              Text('M'),
-              Text('T'),
-              Text('W'),
-              Text('Th'),
-              Text('F'),
-              Text('Sa'),
-            ],
-            isSelected: course.weekDays,
-            onPressed: (int index) {
-              setState(() {
-                course.weekDays[index] = !course.weekDays[index];
-              });
-            },
-            color: shockerBlack,
-            selectedColor: shockerBlack,
-            fillColor: shockerYellow,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-
-          //Submit Class Button
-          OutlinedButton.icon(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                firestoreInstance
-                    .collection('Students')
-                    .doc(firebaseUser.uid)
-                    .collection('Courses')
-                    .add({
-                  'courseInitials': course.courseInitials,
-                  'courseNums': course.courseNums,
-                  'building': course.building,
-                  'roomNum': course.roomNum,
-                  'weekdays': [
-                    course.weekDays[0],
-                    course.weekDays[1],
-                    course.weekDays[2],
-                    course.weekDays[3],
-                    course.weekDays[4],
-                    course.weekDays[5],
-                    course.weekDays[6]
-                  ]
+            //Weekday Toggle buttons
+            ToggleButtons(
+              children: <Widget>[
+                Text('Su'),
+                Text('M'),
+                Text('T'),
+                Text('W'),
+                Text('Th'),
+                Text('F'),
+                Text('Sa'),
+              ],
+              isSelected: course.weekDays,
+              onPressed: (int index) {
+                setState(() {
+                  course.weekDays[index] = !course.weekDays[index];
                 });
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text('Course Added')));
-              }
-            },
-            icon: Icon(Icons.add, color: shockerYellow),
-            label: Text('Add Course', style: TextStyle(color: Colors.black)),
-          )
-        ],
+              },
+              color: shockerBlack,
+              selectedColor: shockerBlack,
+              fillColor: shockerYellow,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+
+            //Submit Class Button
+            OutlinedButton.icon(
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  firestoreInstance
+                      .collection('Students')
+                      .doc(firebaseUser.uid)
+                      .collection('Courses')
+                      .add({
+                    'courseInitials': course.courseInitials,
+                    'courseNums': course.courseNums,
+                    'building': course.building,
+                    'roomNum': course.roomNum,
+                    'startTime': course.startTime,
+                    'weekdays': [
+                      course.weekDays[0],
+                      course.weekDays[1],
+                      course.weekDays[2],
+                      course.weekDays[3],
+                      course.weekDays[4],
+                      course.weekDays[5],
+                      course.weekDays[6]
+                    ]
+                  });
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text('Course Added')));
+                }
+              },
+              icon: Icon(Icons.add, color: shockerYellow),
+              label: Text('Add Course', style: TextStyle(color: Colors.black)),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -341,7 +342,7 @@ class RoomNumField extends StatelessWidget {
 }
 
 /*
-class StartTimeField extends StatelessWidget {
+class StartTimeField extends State<StartTimeField> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -362,3 +363,39 @@ class StartTimeField extends StatelessWidget {
   }
 }
 */
+
+class TimePicker extends StatefulWidget {
+  @override
+  _TimePickerState createState() => _TimePickerState();
+}
+
+class _TimePickerState extends State<TimePicker> {
+  TimeOfDay _time = TimeOfDay(hour: 8, minute: 00);
+
+  void _selectTime(newTime) async {
+    newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+      });
+    }
+  }
+
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () => _selectTime(course.startTime),
+          child: Text('SELECT START TIME'),
+        ),
+        SizedBox(height: 5),
+        Text(
+          'Selected time: ${_time.format(context)}',
+        ),
+      ],
+    );
+  }
+}
