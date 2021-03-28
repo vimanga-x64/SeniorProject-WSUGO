@@ -1,183 +1,161 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../constants.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'package:wsu_go/constants.dart';
+import 'package:wsu_go/ForecastData.dart';
+import 'package:wsu_go/WeatherData.dart';
+import 'package:wsu_go/WeatherItem.dart';
+import 'package:wsu_go/CardItem.dart';
 import './drawer.dart';
+import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+void main() => runApp(new WeatherPage());
 
-void main () => runApp(
-    MaterialApp(
-      title: "WEATHER",
-    )
-);
-
-class WeatherApp extends StatefulWidget {
+class WeatherPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _WeatherAppState();
+    return new MyAppState();
   }
 }
 
-class _WeatherAppState extends State<WeatherApp> {
-
-  var temp;
-  var description;
-  var currently;
-  var humidity;
-  var windSpeed;
-  var feelsLike;
-  var visibility;
-  var high;
-  var low;
-  var sunrise;
-  var sunset;
-  var format_sunrise;
-  var format_sunset;
-
-
-  Future getWeather () async {
-    http.Response response = await http.get(
-        "http://api.openweathermap.org/data/2.5/weather?q=Wichita&units=imperial&appid=b019ccfb8dc5321a73fdd9c6396105d8");
-    var results = jsonDecode(response.body);
-    setState(() {
-      this.temp = results['main']['temp'].round();
-      this.description = results['weather'][0]['description'];
-      this.currently = results['weather'][0]['main'];
-      this.humidity = results['main']['humidity'];
-      this.windSpeed = results['wind']['speed'].round();
-      this.feelsLike = results['main']['feels_like'].round();
-      this.visibility = results['visibility'];
-      this.high = results['main']['temp_max'].round();
-      this.low = results['main']['temp_min'].round();
-      this.sunrise = results['sys']['sunrise'];
-      format_sunrise = DateTime.fromMillisecondsSinceEpoch(sunrise*1000);
-      this.sunset = results['sys']['sunset'];
-      format_sunset = DateTime.fromMillisecondsSinceEpoch(sunset*1000);
-    });
-  }
+class MyAppState extends State<WeatherPage> {
+  bool isLoading = false;
+  WeatherData weatherData;
+  ForecastData forecastData;
+  //Location _location = new Location();
+  String error;
 
   @override
   void initState() {
     super.initState();
-    this.getWeather();
+
+    loadWeather();
   }
+
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Weather'),
-        backgroundColor: shockerYellow,
-      ),
-      drawer: CustomDrawer(),
-      body: Column(
-        children: <Widget> [
-          Container(
-              height: MediaQuery.of(context).size.height / 3,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("images/white.jpg"),
-                    fit : BoxFit.cover,
-                    alignment: Alignment.center,
-                  )
-              ),
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text('Weather',
+            style: GoogleFonts.josefinSans(
+              fontWeight: FontWeight.w800,
+              color: shockerBlack
+            ),),
+                backgroundColor: shockerYellow ),
+          drawer: CustomDrawer(),
+          body: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 40),
-                    child:Text(
-                      "Currently in Wichita, KS",
-                      style: TextStyle(
-                          color: shockerBlack,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: weatherData != null ? Weather(weather: weatherData) : Container(),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-
-                  Text(
-                    temp != null ? temp.toString() + " °F" : "Loading",
-                    style: TextStyle(
-                        color: shockerBlack,
-                        fontSize: 75.0,
-                        fontWeight: FontWeight.w800
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child:Text(
-                      description != null ? description.toString() : "Loading",
-                      style: TextStyle(
-                          color: shockerBlack,
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w600
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 200.0,
+                          child: forecastData != null ? ListView.builder(
+                              itemCount: forecastData.list.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) => WeatherItem(weather: forecastData.list.elementAt(index))
+                          ) : Container(),
+                        ),
                       ),
                     ),
+                    //SizedBox(height: 150),
+                    Expanded (
+                      child: Padding(
 
-                  ),
-                ],
-              ),
-          ),
-          Container (
-            alignment: Alignment.bottomLeft,
-            padding: EdgeInsets.all(20.0),
-            color: Colors.yellow,
-            child: Text ('Sunrise:        ${format_sunrise != null ? format_sunrise : "Loading"}'),
+                        padding: EdgeInsets.all(20.0),
+                        child: ListView(
+                          children: <Widget>[
+                            Text('Additional Info', style: TextStyle(color: Colors.black,
+                              fontSize: 25, fontWeight: FontWeight.w900
+                            ),),
+
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.thermometerHalf) ,
+                              title: Text("Feels Like", style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20
+                              ),),
+                              trailing: Text(weatherData.feelslike.toString() + " °F"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.eye),
+                              title: Text("Visibility", style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20
+                              ),),
+                              trailing: Text(weatherData.visibilty.toString() + " mi"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.water),
+                              title: Text("Humidity", style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20
+                              )),
+                              trailing: Text(weatherData.humidity.toString() + "%"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.wind),
+                              title: Text("Wind Speed", style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20
+                              ),),
+                              trailing: Text(weatherData.windspeed.toString() + " mph"),
+                            )
 
 
-          ),
-          Container (
-            alignment: Alignment.bottomLeft,
-            padding: EdgeInsets.all(20.0),
-            color: Colors.amberAccent,
-            child : Text ('Sunset:        ${format_sunset != null ? format_sunset : "Loading"} '),
-          ),
-          Expanded (
-            child: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: ListView(
-                children: <Widget>[
-
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
-                    title: Text("Feels Like"),
-                    trailing: Text(feelsLike != null ? feelsLike.toString() + " °F" : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.eye),
-                    title: Text("Visibility"),
-                    trailing: Text(visibility != null ? visibility.toString() + " m" : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.water),
-                    title: Text("Humidity"),
-                    trailing: Text(humidity != null ? humidity.toString() + " %" : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.wind),
-                    title: Text("Wind Speed"),
-                    trailing: Text(windSpeed != null ? windSpeed.toString() + " mph" : "Loading"),
-                  ),
-                  ListTile (
-                    leading: FaIcon(FontAwesomeIcons.arrowUp),
-                    title: Text("Highest Temp"),
-                    trailing: Text(high != null ? high.toString() + " °F" : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.arrowDown),
-                    title: Text("Lowest Temp"),
-                    trailing: Text(low != null ? low.toString() + " °F" : "Loading"),
-                  )
-                  ],
-              ),
-            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    ]
+              )
           )
-        ],
-      ),
-    );
+      );
+  }
+
+  loadWeather() async {
+    setState(() {
+      isLoading = true;
+    });
+
+
+    final lat = 37.6922;
+    final lon = -97.3375;
+
+      final weatherResponse = await http.get(
+          'https://api.openweathermap.org/data/2.5/weather?&units=imperial&APPID=b019ccfb8dc5321a73fdd9c6396105d8&lat=${lat
+              .toString()}&lon=${lon.toString()}');
+      final forecastResponse = await http.get(
+          'https://api.openweathermap.org/data/2.5/forecast?&units=imperial&APPID=b019ccfb8dc5321a73fdd9c6396105d8&lat=${lat
+              .toString()}&lon=${lon.toString()}');
+
+      if (weatherResponse.statusCode == 200 &&
+          forecastResponse.statusCode == 200) {
+        return setState(() {
+          weatherData =
+          new WeatherData.fromJson(jsonDecode(weatherResponse.body));
+          forecastData =
+          new ForecastData.fromJson(jsonDecode(forecastResponse.body));
+          isLoading = false;
+        });
+      }
+
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }

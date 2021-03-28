@@ -36,7 +36,8 @@ class CustomDrawer extends StatelessWidget {
                            ),
                         ],
                       ),
-                   )),
+                   )),  
+
         CustomListTile(Icons.home,'Home', ()=>{
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
         }),
@@ -47,13 +48,13 @@ class CustomDrawer extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
         }),
         CustomListTile(Icons.wb_sunny,'Weather', ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherApp()))
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherPage()))
         }),
         CustomListTile(Icons.book,'Courses', ()=>{
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CoursePage()))
         }),
         //Icons.logout
-        CustomListTile(Icons.exit_to_app,'Logout', 
+        CustomListTile(Icons.exit_to_app,'Logout',
                   ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
         ],)    
     );
