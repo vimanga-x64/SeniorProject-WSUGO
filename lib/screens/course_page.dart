@@ -15,10 +15,6 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
-  //Creating an instance for Firesore, students
-  //Tapping into our collection of Students
-  CollectionReference students =
-      FirebaseFirestore.instance.collection('Students');
 
   @override
   Widget build(BuildContext context) {
@@ -71,33 +67,60 @@ class StudentClasses extends StatefulWidget {
   _StudentClassesState createState() => _StudentClassesState();
 }
 
+//Importing the CourseData class that Jordan created to store the retrieve data to be outputted
+class CourseData {
+  String courseInitials = '';
+  String courseNums = '';
+  String building = '';
+  String roomNum = '';
+  TimeOfDay startTime;
+  TimeOfDay endTime;
+  List<bool> weekDays = List.generate(7, (_) => false);
+}
+
 class _StudentClassesState extends State<StudentClasses> {
-  //Creating a Future function that is going to return a variable type of "QuerySnapshot"
-  //Future function is async with an awaiting variable of student that is type "QuerySnapshot"
-  Future<QuerySnapshot> getUserCourseData() async {
-    //Creating two final variables to access FirebaseAuthentication and Cloud Firestore
 
-    //Targets that current user that is logged in
-    final _auth = FirebaseAuth.instance.currentUser;
-
-    //Get the current logged in student's data
-    //They are targeted by their "_auth.uid"
-    final student = FirebaseFirestore.instance
-        .collection('Students')
-        .doc(_auth.uid)
-        .collection('Course')
-        .get();
-
-    return await student;
-  }
+  //List of Course Objects that are waiting to be added when going through Courses Collection in Firestore
+  List<CourseData> courseObjects = [];
 
   @override
   Widget build(BuildContext context) {
-    //Returning FutureBuilder() widget that is going to assist on waiting for
-    return FutureBuilder(
-      //Set future variable as our Future<QuerySnapshot>
-      future: getUserCourseData(),
-      builder: (),
+    //Getting our current user's information
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    //Creating a stream variable that holds <QuerySnapshots> of 'Courses' collection
+    Stream collectionStream = FirebaseFirestore.instance.collection('Students').doc(firebaseUser.uid).collection('Courses').snapshots();
+
+    //Returning StreamBuilder() widget that is going to assist on waiting for
+    return StreamBuilder<QuerySnapshot>(
+      stream: collectionStream,
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+        if(snapshot.hasError){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if(snapshot.hasData){
+          //Final variable to hold a List<QueryDocumentSnapshots> of courses
+          final courses = snapshot.data.docs;
+
+          //Looping through each document in Courses collection to store each course data in CourseData object
+          //That CourseData object will be store in a list of courseObjects
+          for (var course in courses) {
+            courseObjects.add(CourseData(
+
+            ));
+          }
+          //there are multiple 'course' currently in 'courses' that needs to be displayed
+        }
+
+        return Column(
+          children: [
+            Text('test2'),
+          ],
+        );
+      },
     );
   }
 }
