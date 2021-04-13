@@ -75,6 +75,11 @@ class CourseData {
   List<bool> weekDays = List.generate(7, (_) => false);
 }
 
+//Function to assist with displaying when the course occur
+String toString(bool weekdays) {
+  return weekdays ? "true" : "false";
+}
+
 class StudentClasses extends StatefulWidget {
   @override
   _StudentClassesState createState() => _StudentClassesState();
@@ -134,9 +139,111 @@ class _StudentClassesState extends State<StudentClasses> {
           }
         }
 
+        //Outputting our database values!
         return Column(
           children: [
-
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              courseObjects[0].courseInitials,
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              courseObjects[0].courseNums,
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              courseObjects[0].building,
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              courseObjects[0].roomNum,
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Sunday: " + courseObjects[0].weekDays[0].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Monday: " + courseObjects[0].weekDays[1].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Tuesday: " + courseObjects[0].weekDays[2].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Wednesday: " + courseObjects[0].weekDays[3].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Thursday: " + courseObjects[0].weekDays[4].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Friday: " + courseObjects[0].weekDays[5].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              "Saturday: " + courseObjects[0].weekDays[6].toString(),
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
           ],
         );
       },

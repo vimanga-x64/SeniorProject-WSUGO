@@ -16,7 +16,7 @@ class CourseDataTest{
   final String roomNum;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
-  final List<bool> weekDays;
+  final List<dynamic> weekDays;
 
   //Constructor of a course
   CourseDataTest({
