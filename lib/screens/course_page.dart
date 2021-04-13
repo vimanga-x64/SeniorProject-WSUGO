@@ -62,10 +62,6 @@ class _AddButtonState extends State<AddButton> {
   }
 }
 
-class StudentClasses extends StatefulWidget {
-  @override
-  _StudentClassesState createState() => _StudentClassesState();
-}
 
 //Importing the CourseData class that Jordan created to store the retrieve data to be outputted
 class CourseData {
@@ -76,6 +72,11 @@ class CourseData {
   TimeOfDay startTime;
   TimeOfDay endTime;
   List<bool> weekDays = List.generate(7, (_) => false);
+}
+
+class StudentClasses extends StatefulWidget {
+  @override
+  _StudentClassesState createState() => _StudentClassesState();
 }
 
 class _StudentClassesState extends State<StudentClasses> {
@@ -109,7 +110,13 @@ class _StudentClassesState extends State<StudentClasses> {
           //That CourseData object will be store in a list of courseObjects
           for (var course in courses) {
             courseObjects.add(CourseData(
-
+              courseInitials: ,
+              courseNums: ,
+              building: ,
+              roomNum: ,
+              startTime: ,
+              endTime: ,
+              weekDays: ,
             ));
           }
           //there are multiple 'course' currently in 'courses' that needs to be displayed
