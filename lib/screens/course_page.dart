@@ -103,39 +103,40 @@ class _StudentClassesState extends State<StudentClasses> {
   @override
   Widget build(BuildContext context) {
 
-    //Returning StreamBuilder() widget that is going to assist on waiting for
+    //Returning a StreamBuilder widget to have app change data when Database is changed, "A constant Stream"
     return StreamBuilder<QuerySnapshot>(
-      stream: collectionStream,
+      //Passing our stream into stream property
+      stream: getUserCourseData(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+        //If error occurs
         if(snapshot.hasError){
           return Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        if(snapshot.hasData){
-          //Final variable to hold a List<QueryDocumentSnapshots> of courses
+
+        //If connection is done
+        if(snapshot.hasData) {
+          //Final variable to hold List<QueryDocumentSnapshot>
           final courses = snapshot.data.docs;
 
-          //Looping through each document in Courses collection to store each course data in CourseData object
-          //That CourseData object will be store in a list of courseObjects
-          for (var course in courses) {
-            courseObjects.add(CourseData(
-              courseInitials: ,
-              courseNums: ,
-              building: ,
-              roomNum: ,
-              startTime: ,
-              endTime: ,
-              weekDays: ,
+          //Cycling through each Document (Courses)
+          for(var course in courses){
+            //Creating CourseDataTest objects and pass it to courseObjects variable
+            courseObjects.add(CourseDataTest(
+              courseInitials: course.data()["courseInitials"],
+              courseNums: course.data()["courseNums"],
+              building: course.data()["building"],
+              roomNum: course.data()["roomNum"],
+              weekDays: course.data()["weekdays"]
             ));
           }
-          //there are multiple 'course' currently in 'courses' that needs to be displayed
         }
 
         return Column(
           children: [
-            Text('test2'),
+
           ],
         );
       },
