@@ -3,6 +3,7 @@ import 'package:wsu_go/constants.dart';
 import 'package:flutter/material.dart';
 import './drawer.dart';
 import './add_course.dart';
+import '../constants.dart';
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
 // Import Cloud Firestore package
@@ -81,16 +82,26 @@ class StudentClasses extends StatefulWidget {
 
 class _StudentClassesState extends State<StudentClasses> {
 
-  //List of Course Objects that are waiting to be added when going through Courses Collection in Firestore
-  List<CourseData> courseObjects = [];
+  //List of CourseDataTest Objects that are waiting to be added when going through "Courses" Collection in Firestore
+  List<CourseDataTest> courseObjects = [];
+
+  //Creating a Stream function that is oging to return a variable type of "QuerySnapshot"
+  Stream<QuerySnapshot> getUserCourseData() {
+    //Creating two final variables to access FirebaseAuthentication and Cloud Firestore
+
+    //Targets that current user that is logged in
+    final _auth = FirebaseAuth.instance.currentUser;
+
+    //Get the current logged in user's courses
+    //They are targeted by their "_auth.uid"
+    final studentCourses = FirebaseFirestore.instance.collection('Students').doc(_auth.uid).collection('Courses').snapshots();
+
+    return studentCourses;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    //Getting our current user's information
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-
-    //Creating a stream variable that holds <QuerySnapshots> of 'Courses' collection
-    Stream collectionStream = FirebaseFirestore.instance.collection('Students').doc(firebaseUser.uid).collection('Courses').snapshots();
 
     //Returning StreamBuilder() widget that is going to assist on waiting for
     return StreamBuilder<QuerySnapshot>(
