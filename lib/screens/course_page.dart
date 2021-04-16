@@ -64,17 +64,6 @@ class _AddButtonState extends State<AddButton> {
 }
 
 
-//Importing the CourseData class that Jordan created to store the retrieve data to be outputted
-class CourseData {
-  String courseInitials = '';
-  String courseNums = '';
-  String building = '';
-  String roomNum = '';
-  String startTime = '';
-  String endTime = '';
-  List<bool> weekDays = List.generate(7, (_) => false);
-}
-
 //Function to assist with displaying when the course occur
 String toString(bool weekdays) {
   return weekdays ? "true" : "false";
@@ -88,7 +77,7 @@ class StudentClasses extends StatefulWidget {
 class _StudentClassesState extends State<StudentClasses> {
 
   //List of CourseDataTest Objects that are waiting to be added when going through "Courses" Collection in Firestore
-  List<CourseDataTest> courseObjects = [];
+  List<CourseDataRead> courseObjects = [];
 
   //Creating a Stream function that is oging to return a variable type of "QuerySnapshot"
   Stream<QuerySnapshot> getUserCourseData() {
@@ -114,12 +103,11 @@ class _StudentClassesState extends State<StudentClasses> {
       stream: getUserCourseData(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
         //If error occurs
-        if(snapshot.hasData){
+        if(snapshot.hasError){
           return Center(
             child: CircularProgressIndicator(),
           );
         }
-
 
         //If connection is done
         if(snapshot.hasData) {
@@ -129,7 +117,7 @@ class _StudentClassesState extends State<StudentClasses> {
           //Cycling through each Document (Courses)
           for(var course in courses){
             //Creating CourseDataTest objects and pass it to courseObjects variable
-            courseObjects.add(CourseDataTest(
+            courseObjects.add(CourseDataRead(
               courseInitials: course.data()["courseInitials"],
               courseNums: course.data()["courseNums"],
               building: course.data()["building"],

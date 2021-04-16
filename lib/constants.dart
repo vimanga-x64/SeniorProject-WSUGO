@@ -7,7 +7,7 @@ const Color shockerWhite = const Color(0xFFFFFFFF);
 const Color shockerBlack = const Color(0xFF000000);
 
 //CourseData Class
-class CourseDataTest{
+class CourseDataRead{
 
   //Properties of a course
   final String courseInitials;
@@ -19,7 +19,7 @@ class CourseDataTest{
   final List<dynamic> weekDays;
 
   //Constructor of a course
-  CourseDataTest({
+  CourseDataRead({
     this.courseInitials,
     this.courseNums,
     this.building,
@@ -29,12 +29,12 @@ class CourseDataTest{
     this.weekDays});
 
   //Factory to create CourseData objects
-  factory CourseDataTest.fromFirestore(DocumentSnapshot doc){
+  factory CourseDataRead.fromFirestore(DocumentSnapshot doc){
     //Assigning the document's data to a Map variable "data"
     Map data = doc.data();
 
     //Using the Constructor to create an object, passing the Map "data" values
-    return CourseDataTest(
+    return CourseDataRead(
       courseInitials: data["courseInitials"],
       courseNums: data["courseNums"],
       building: data["building"],
