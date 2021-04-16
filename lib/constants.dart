@@ -14,8 +14,8 @@ class CourseDataTest{
   final String courseNums;
   final String building;
   final String roomNum;
-  final TimeOfDay startTime;
-  final TimeOfDay endTime;
+  final String startTime;
+  final String endTime;
   final List<dynamic> weekDays;
 
   //Constructor of a course
@@ -39,6 +39,8 @@ class CourseDataTest{
       courseNums: data["courseNums"],
       building: data["building"],
       roomNum: data["roomNum"],
+      startTime: data["startTime"],
+      endTime: data["endTime"],
       weekDays: data["weekdays"]);
   }
 

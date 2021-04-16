@@ -70,8 +70,8 @@ class CourseData {
   String courseNums = '';
   String building = '';
   String roomNum = '';
-  TimeOfDay startTime;
-  TimeOfDay endTime;
+  String startTime = '';
+  String endTime = '';
   List<bool> weekDays = List.generate(7, (_) => false);
 }
 
@@ -134,6 +134,8 @@ class _StudentClassesState extends State<StudentClasses> {
               courseNums: course.data()["courseNums"],
               building: course.data()["building"],
               roomNum: course.data()["roomNum"],
+              startTime: course.data()["startTime"],
+              endTime: course.data()["endTime"],
               weekDays: course.data()["weekdays"]
             ));
           }
@@ -174,6 +176,24 @@ class _StudentClassesState extends State<StudentClasses> {
             ),
             Text(
               courseObjects[0].roomNum,
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              courseObjects[0].startTime,
+              textAlign: TextAlign.left,
+              style: GoogleFonts.josefinSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: shockerBlack,
+              ),
+            ),
+            Text(
+              courseObjects[0].endTime,
               textAlign: TextAlign.left,
               style: GoogleFonts.josefinSans(
                 fontSize: 20,
