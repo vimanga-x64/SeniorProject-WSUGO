@@ -114,7 +114,7 @@ class _StudentClassesState extends State<StudentClasses> {
       stream: getUserCourseData(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
         //If error occurs
-        if(snapshot.hasError){
+        if(snapshot.hasData){
           return Center(
             child: CircularProgressIndicator(),
           );
