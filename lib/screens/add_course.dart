@@ -43,8 +43,8 @@ class CourseData {
   String courseNums = '';
   String building = '';
   String roomNum = '';
-  TimeOfDay startTime;
-  TimeOfDay endTime;
+  String startTime;
+  String endTime;
   List<bool> weekDays = List.generate(7, (_) => false);
 }
 
@@ -139,14 +139,14 @@ class CourseFormState extends State<CourseForm> {
                 ),
 
                 //Start Time Button
-                Expanded(child: TimePicker()),
+                Expanded(child: StartTimePicker()),
 
                 SizedBox(
                   width: 20,
                 ),
 
                 //End Time Textbox
-                Expanded(child: TimePicker()),
+                Expanded(child: EndTimePicker()),
 
                 SizedBox(
                   width: 20,
@@ -197,6 +197,7 @@ class CourseFormState extends State<CourseForm> {
                     'building': course.building,
                     'roomNum': course.roomNum,
                     'startTime': course.startTime,
+                    'endTime': course.endTime,
                     'weekdays': [
                       course.weekDays[0],
                       course.weekDays[1],
@@ -341,45 +342,23 @@ class RoomNumField extends StatelessWidget {
   }
 }
 
-/*
-class StartTimeField extends State<StartTimeField> {
+class StartTimePicker extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text("Time: ${course.startTime.hour}:${course.startTime.minute}"),
-      trailing: Icon(Icons.keyboard_arrow_down),
-      onTap: _pickTime,
-    );
-  }
-
-  _pickTime() async {
-    TimeOfDay t =
-        await showTimePicker(context: context, initialTime: course.startTime);
-
-    if (t != null)
-      setState(() {
-        course.startTime = t;
-      });
-  }
-}
-*/
-
-class TimePicker extends StatefulWidget {
-  @override
-  _TimePickerState createState() => _TimePickerState();
+  _StartTimePickerState createState() => _StartTimePickerState();
 }
 
-class _TimePickerState extends State<TimePicker> {
-  TimeOfDay _time = TimeOfDay(hour: 8, minute: 00);
+class _StartTimePickerState extends State<StartTimePicker> {
+  TimeOfDay _time = TimeOfDay(hour: 8, minute: 15);
 
-  void _selectTime(newTime) async {
-    newTime = await showTimePicker(
+  void _selectTime() async {
+    final TimeOfDay newTime = await showTimePicker(
       context: context,
       initialTime: _time,
     );
     if (newTime != null) {
       setState(() {
         _time = newTime;
+        course.startTime = _time.format(context);
       });
     }
   }
@@ -387,11 +366,50 @@ class _TimePickerState extends State<TimePicker> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: () => _selectTime(course.startTime),
-          child: Text('SELECT START TIME'),
+        OutlinedButton.icon(
+          onPressed: _selectTime,
+          icon: Icon(Icons.more_time, color: shockerYellow),
+          label: Text('SELECT TIME', style: TextStyle(color: Colors.black)),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 8),
+        Text(
+          'Selected time: ${_time.format(context)}',
+        ),
+      ],
+    );
+  }
+}
+
+class EndTimePicker extends StatefulWidget {
+  @override
+  _EndTimePickerState createState() => _EndTimePickerState();
+}
+
+class _EndTimePickerState extends State<EndTimePicker> {
+  TimeOfDay _time = TimeOfDay(hour: 8, minute: 15);
+
+  void _selectTime() async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+        course.endTime = _time.format(context);
+      });
+    }
+  }
+
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        OutlinedButton.icon(
+          onPressed: _selectTime,
+          icon: Icon(Icons.more_time, color: shockerYellow),
+          label: Text('SELECT TIME', style: TextStyle(color: Colors.black)),
+        ),
+        SizedBox(height: 8),
         Text(
           'Selected time: ${_time.format(context)}',
         ),
