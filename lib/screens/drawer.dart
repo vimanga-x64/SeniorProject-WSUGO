@@ -8,6 +8,7 @@ import 'package:wsu_go/screens/login_page.dart';
 import './calendar_page.dart';
 import './weather.dart';
 import './course_page.dart';
+import './campus_map_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
@@ -16,47 +17,56 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     //Drawer menu creation
     return Drawer(
-            child: ListView(
-              children: [
-                //Header box creation and stylization
-                DrawerHeader(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: <Color>[shockerYellow, shockerYellow])
-                    ),
-                    child: Container (
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                           Material(
-                             borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                             elevation: 10,
-                             child: Image.asset('images/logo3x.png'),
-                           ),
-                        ],
+        child: ListView(
+          children: [
+            //Header box creation and stylization
+            DrawerHeader(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: <Color>[shockerYellow, shockerYellow])
+                ),
+                child: Container (
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
                       ),
-                   )),  
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        elevation: 10,
+                        child: Image.asset('images/logo3x.png'),
+                      ),
+                    ],
+                  ),
+                )),
 
-        CustomListTile(Icons.home,'Home', ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
-        }),
-        CustomListTile(Icons.fastfood,'Food', ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
-        }),
-        CustomListTile(Icons.event_note,'Calendar', ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
-        }),
-        CustomListTile(Icons.wb_sunny,'Weather', ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherPage()))
-        }),
-        CustomListTile(Icons.book,'Courses', ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CoursePage()))
-        }),
-        //Icons.logout
-        CustomListTile(Icons.exit_to_app,'Logout',
-                  ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
-        ],)    
+            CustomListTile(Icons.home,'Home', ()=>{
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => HomePage()))
+            }),
+
+            CustomListTile(Icons.fastfood,'Food', ()=>{
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodPage()))
+            }),
+
+            CustomListTile(Icons.event_note,'Calendar', ()=>{
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CalendarPage()))
+            }),
+
+            CustomListTile(Icons.wb_sunny,'Weather', ()=>{
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => WeatherPage()))
+            }),
+
+            CustomListTile(Icons.book,'Courses', ()=>{
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CoursePage()))
+            }),
+
+            CustomListTile(Icons.map,'Campus Map', ()=>{
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MapPage()))
+            }),
+
+            CustomListTile(Icons.exit_to_app,'Logout',
+                    ()=>{{_auth.signOut(), Navigator.pushNamed(context, Login.id)}}),
+
+          ],)
     );
   }
 }
@@ -79,38 +89,38 @@ class CustomListTile extends StatelessWidget{
       padding: const EdgeInsets.all(9),
       child: Container(
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey.shade600))
-         ),
+            border: Border(bottom: BorderSide(color: Colors.grey.shade600))
+        ),
         child: InkWell(
           splashColor: shockerYellow,
-         //Get the custom route
-         onTap: onTap,
+          //Get the custom route
+          onTap: onTap,
           child: Container(
             //Height of each tile
-           height: 50,
-           child: Row(
-             //Align arrows on the far right
+            height: 50,
+            child: Row(
+              //Align arrows on the far right
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-               Row(
+                Row(
                   children: [
                     //Get the custom icon
                     Icon(icon),
-                   Padding(
-                     //Title stylization
+                    Padding(
+                      //Title stylization
                       padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                       //Get custom title text
                       child: Text(text, style: TextStyle(
-                      fontSize: 18.0
-                    ),),
-                  ),
-                ],
-              ),
-              Icon(Icons.arrow_forward_ios_outlined)
-            ],
+                          fontSize: 18.0
+                      ),),
+                    ),
+                  ],
+                ),
+                Icon(Icons.arrow_forward_ios_outlined)
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
