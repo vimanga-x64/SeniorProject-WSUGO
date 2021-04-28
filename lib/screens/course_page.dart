@@ -16,7 +16,6 @@ class CoursePage extends StatefulWidget {
 }
 
 class _CoursePageState extends State<CoursePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +33,11 @@ class _CoursePageState extends State<CoursePage> {
       drawer: CustomDrawer(),
       floatingActionButton: AddButton(),
       body: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 10),
             StudentClasses(),
           ],
         ),
@@ -57,16 +58,10 @@ class _AddButtonState extends State<AddButton> {
       onPressed: () {
         Navigator.pushNamed(context, AddCourse.id);
       },
-      child: Icon(Icons.add),
-      backgroundColor: shockerYellow,
+      child: Icon(Icons.add, color: shockerYellow),
+      backgroundColor: Colors.black,
     );
   }
-}
-
-
-//Function to assist with displaying when the course occur
-String toString(bool weekdays) {
-  return weekdays ? "true" : "false";
 }
 
 class StudentClasses extends StatefulWidget {
@@ -75,8 +70,7 @@ class StudentClasses extends StatefulWidget {
 }
 
 class _StudentClassesState extends State<StudentClasses> {
-
-  //List of CourseDataTest Objects that are waiting to be added when going through "Courses" Collection in Firestore
+  //List of CourseDataRead Objects that are waiting to be added when going through "Courses" Collection in Firestore
   List<CourseDataRead> courseObjects = [];
 
   //Creating a Stream function that is oging to return a variable type of "QuerySnapshot"
@@ -88,172 +82,150 @@ class _StudentClassesState extends State<StudentClasses> {
 
     //Get the current logged in user's courses
     //They are targeted by their "_auth.uid"
-    final studentCourses = FirebaseFirestore.instance.collection('Students').doc(_auth.uid).collection('Courses').snapshots();
+    final studentCourses = FirebaseFirestore.instance
+        .collection('Students')
+        .doc(_auth.uid)
+        .collection('Courses')
+        .snapshots();
 
     return studentCourses;
   }
 
+  void deleteUserCourseData(String docID) {
+    final _auth = FirebaseAuth.instance.currentUser;
+
+    FirebaseFirestore.instance
+        .collection('Students')
+        .doc(_auth.uid)
+        .collection('Courses')
+        .doc(docID)
+        .delete();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     //Returning a StreamBuilder widget to have app change data when Database is changed, "A constant Stream"
     return StreamBuilder<QuerySnapshot>(
       //Passing our stream into stream property
       stream: getUserCourseData(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         //If error occurs
-        if(snapshot.hasError){
+        if (snapshot.hasError) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
 
         //If connection is done
-        if(snapshot.hasData) {
+        if (snapshot.hasData) {
           //Final variable to hold List<QueryDocumentSnapshot>
           final courses = snapshot.data.docs;
 
+          //Erase all list items and input new snapshot items
+          courseObjects.clear();
+
           //Cycling through each Document (Courses)
-          for(var course in courses){
+          for (var course in courses) {
             //Creating CourseDataTest objects and pass it to courseObjects variable
             courseObjects.add(CourseDataRead(
-              courseInitials: course.data()["courseInitials"],
-              courseNums: course.data()["courseNums"],
-              building: course.data()["building"],
-              roomNum: course.data()["roomNum"],
-              startTime: course.data()["startTime"],
-              endTime: course.data()["endTime"],
-              weekDays: course.data()["weekdays"]
-            ));
+                docID: course.id,
+                courseInitials: course.data()["courseInitials"],
+                courseNums: course.data()["courseNums"],
+                building: course.data()["building"],
+                roomNum: course.data()["roomNum"],
+                startTime: course.data()["startTime"],
+                endTime: course.data()["endTime"],
+                weekDays: course.data()["weekdays"]));
           }
         }
 
         //Outputting our database values!
-        return Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              courseObjects[0].courseInitials,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
+        return Expanded(
+            child: courseObjects.isEmpty
+                ? Center(
+                child: Text(
+                  'No Classes stored.',
+                  style: GoogleFonts.josefinSans(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: shockerBlack,
+                  ),
+                ))
+                : ListView.separated(
+              itemCount: courseObjects.length,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      setState(() {
+                        deleteUserCourseData(courseObjects[index].docID);
+                        courseObjects.removeAt(index);
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: shockerYellowOpaque,
+                          borderRadius: BorderRadius.circular(20)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 18),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.book),
+                          SizedBox(
+                            width: 17,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                courseObjects[index].courseInitials +
+                                    " " +
+                                    courseObjects[index].courseNums,
+                                style: GoogleFonts.josefinSans(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: shockerBlack,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                "At: " +
+                                    courseObjects[index].startTime +
+                                    " - " +
+                                    courseObjects[index].endTime,
+                                style: GoogleFonts.josefinSans(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: shockerBlack,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                "In: " +
+                                    courseObjects[index].building +
+                                    " " +
+                                    courseObjects[index].roomNum,
+                                style: GoogleFonts.josefinSans(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: shockerBlack,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ));
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            Text(
-              courseObjects[0].courseNums,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              courseObjects[0].building,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              courseObjects[0].roomNum,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              courseObjects[0].startTime,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              courseObjects[0].endTime,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Sunday: " + courseObjects[0].weekDays[0].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Monday: " + courseObjects[0].weekDays[1].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Tuesday: " + courseObjects[0].weekDays[2].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Wednesday: " + courseObjects[0].weekDays[3].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Thursday: " + courseObjects[0].weekDays[4].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Friday: " + courseObjects[0].weekDays[5].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-            Text(
-              "Saturday: " + courseObjects[0].weekDays[6].toString(),
-              textAlign: TextAlign.left,
-              style: GoogleFonts.josefinSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: shockerBlack,
-              ),
-            ),
-          ],
-        );
+            ));
       },
     );
   }
