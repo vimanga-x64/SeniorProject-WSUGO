@@ -7,7 +7,9 @@ const Color shockerWhite = const Color(0xFFFFFFFF);
 const Color shockerBlack = const Color(0xFF000000);
 
 //CourseData Class
-class CourseDataRead{
+class CourseDataRead {
+  // Document ID stored in Firestore
+  final String docID;
 
   //Properties of a course
   final String courseInitials;
@@ -19,29 +21,30 @@ class CourseDataRead{
   final List<dynamic> weekDays;
 
   //Constructor of a course
-  CourseDataRead({
-    this.courseInitials,
-    this.courseNums,
-    this.building,
-    this.roomNum,
-    this.startTime,
-    this.endTime,
-    this.weekDays});
+  CourseDataRead(
+      {this.docID,
+        this.courseInitials,
+        this.courseNums,
+        this.building,
+        this.roomNum,
+        this.startTime,
+        this.endTime,
+        this.weekDays});
 
   //Factory to create CourseData objects
-  factory CourseDataRead.fromFirestore(DocumentSnapshot doc){
+  factory CourseDataRead.fromFirestore(DocumentSnapshot doc) {
     //Assigning the document's data to a Map variable "data"
     Map data = doc.data();
 
     //Using the Constructor to create an object, passing the Map "data" values
     return CourseDataRead(
-      courseInitials: data["courseInitials"],
-      courseNums: data["courseNums"],
-      building: data["building"],
-      roomNum: data["roomNum"],
-      startTime: data["startTime"],
-      endTime: data["endTime"],
-      weekDays: data["weekdays"]);
+        docID: doc.id,
+        courseInitials: data["courseInitials"],
+        courseNums: data["courseNums"],
+        building: data["building"],
+        roomNum: data["roomNum"],
+        startTime: data["startTime"],
+        endTime: data["endTime"],
+        weekDays: data["weekdays"]);
   }
-
 }
