@@ -42,19 +42,24 @@ class _HomePageState extends State<HomePage> {
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: shockerBlack),
         actions: <Widget>[
-          Text('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500)),
           IconButton(
-            icon: const Icon(Icons.wb_sunny),
+              padding: new EdgeInsets.all(0),
+              icon: Text ('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w300)), onPressed: null),
+          //Text('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w300)),
+          IconButton(
+            padding: new EdgeInsets.all(0),
+            icon: const Icon(Icons.wb_sunny_sharp),
             color: shockerYellow,
             tooltip: 'Weather',
+            iconSize: 20,
             onPressed: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => WeatherPage()));
             },
           ),
-          //Text('${weather.temp.toString()}°F', style: new TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.w100)),
         ],
       ),
+
       drawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Container(
@@ -105,6 +110,8 @@ class _HomePageState extends State<HomePage> {
     final weatherResponse = await http.get(
         'https://api.openweathermap.org/data/2.5/weather?&units=imperial&APPID=b019ccfb8dc5321a73fdd9c6396105d8&lat=${lat
             .toString()}&lon=${lon.toString()}');
+
+
 
     if (weatherResponse.statusCode == 200) {
       return setState(() {

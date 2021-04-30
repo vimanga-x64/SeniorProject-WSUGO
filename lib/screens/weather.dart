@@ -2,14 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
 import 'package:wsu_go/constants.dart';
 import 'package:wsu_go/ForecastData.dart';
 import 'package:wsu_go/WeatherData.dart';
 import 'package:wsu_go/WeatherItem.dart';
 import 'package:wsu_go/CardItem.dart';
 import './drawer.dart';
-import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() => runApp(new WeatherPage());
@@ -23,7 +21,7 @@ class WeatherPage extends StatefulWidget {
 
 class MyAppState extends State<WeatherPage> {
   bool isLoading = false;
-  WeatherData weatherData;
+  WeatherData weatherData = WeatherData();
   ForecastData forecastData;
   //Location _location = new Location();
   String error;
@@ -35,7 +33,7 @@ class MyAppState extends State<WeatherPage> {
     loadWeather();
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
           backgroundColor: Colors.white,
@@ -91,34 +89,48 @@ class MyAppState extends State<WeatherPage> {
                               title: Text("Feels Like", style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20
                               ),),
-                              trailing: Text(weatherData.feelslike.toString() + " °F"),
+                              trailing: Text(weatherData.feelslike != null ? weatherData.feelslike.toString() + " °F" : "Loading"),
                             ),
                             ListTile(
                               leading: FaIcon(FontAwesomeIcons.eye),
                               title: Text("Visibility", style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20
                               ),),
-                              trailing: Text(weatherData.visibilty.toString() + " mi"),
+                              trailing: Text(weatherData.visibilty != null ? weatherData.visibilty.toString() + " m" : "Loading"),
                             ),
                             ListTile(
                               leading: FaIcon(FontAwesomeIcons.water),
                               title: Text("Humidity", style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20
                               )),
-                              trailing: Text(weatherData.humidity.toString() + "%"),
+                              trailing: Text(weatherData.humidity != null ? weatherData.humidity.toString() + "%" : "Loading"),
                             ),
                             ListTile(
                               leading: FaIcon(FontAwesomeIcons.wind),
                               title: Text("Wind Speed", style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 20
                               ),),
-                              trailing: Text(weatherData.windspeed.toString() + " mph"),
-                            )
+                              trailing: Text(weatherData.windspeed != null ? weatherData.windspeed.toString() + " mph" : "Loading"),
+                            ),
+                            /*ListTile(
+                              leading: FaIcon(FontAwesomeIcons.sun),
+                              title: Text("Sunrise", style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20
+                              ),),
+                              trailing: Text(weatherData.sunRise != null ? weatherData.sunRise*1000 : "Loading"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.moon),
+                              title: Text("Sunset", style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 20
+                              ),),
+                              trailing: Text(weatherData.sunSet != null ? weatherData.sunSet*1000 : "Loading"),
+                            ),*/
 
 
                           ],
-                        ),
-                      ),
+                        )
+                      )
                     )
                     ]
               )

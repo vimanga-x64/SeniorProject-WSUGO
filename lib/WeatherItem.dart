@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:core';
 
 import 'package:wsu_go/WeatherData.dart';
 
@@ -19,7 +20,7 @@ class Weather extends StatelessWidget {
         //Text(new DateFormat.yMMMd().format(weather.date), style: new TextStyle(color: Colors.white)),
         //Text(new DateFormat.Hm().format(weather.date), style: new TextStyle(color: Colors.white)),\
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               color: Colors.white,
@@ -37,7 +38,20 @@ class Weather extends StatelessWidget {
               ),
             )
           ],
-        )
+        ),
+
+        /*Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              color: Colors.white,
+              child: Text (
+                'Sunrise: ${DateTime.fromMillisecondsSinceEpoch(weather.sunRise*1000)}'
+              ),
+            )
+          ],
+
+        ),*/
       ],
     );
 
