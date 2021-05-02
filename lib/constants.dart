@@ -48,3 +48,7 @@ class CourseDataRead {
         weekDays: data["weekdays"]);
   }
 }
+
+class AppDBConstants {
+  static const String eventsCollection = "events";
+}
