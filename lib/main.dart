@@ -9,6 +9,7 @@ import 'screens/course_page.dart';
 import 'package:wsu_go/screens/add_course.dart';
 import 'screens/campus_map_page.dart';
 import 'screens/building_data.dart';
+import 'screens/calendar_routes.dart';
 
 // Import the firebase_auth plugin
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,6 +43,8 @@ class WSUGo extends StatelessWidget {
         MapPage.id: (context) => MapPage(),
         BuildingData.id: (context) => BuildingData(),
       },
+        //Routes for calendar
+        onGenerateRoute: AppRoutes.onGenerateRoute
     );
   }
 }
