@@ -11,6 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Used for calendar building and firebase editing
+  flutter_form_builder: ^4.0.1
+  firebase_helpers: ^0.2.2
+
   # This adds the google fonts library to our application
   google_fonts: ^1.1.0
 
